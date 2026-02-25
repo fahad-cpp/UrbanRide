@@ -20,11 +20,7 @@ function SearchPage({ onNavigate, searchParams }) {
         <form style={{ backgroundColor: 'var(--bg-card)', borderRadius: '4px', padding: '16px', marginBottom: '32px', border: '1px solid var(--border)', display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : 'repeat(4, 1fr)', gap: '12px', alignItems: 'flex-end' }}>
           <select value={location} onChange={(e) => setLocation(e.target.value)} style={{ width: '100%' }}>
             <option value="">Location</option>
-            <option value="New York">New York</option>
-            <option value="Los Angeles">Los Angeles</option>
-            <option value="San Francisco">San Francisco</option>
-            <option value="Chicago">Chicago</option>
-            <option value="Miami">Miami</option>
+            <option value="Ahmedabad">Ahmedabad</option>
           </select>
           <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} style={{ width: '100%' }} />
           <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} style={{ width: '100%' }} />
