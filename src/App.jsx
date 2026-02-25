@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { AuthProvider } from './contexts/AuthContext'
+import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { DataProvider } from './contexts/DataContext'
 import Navigation from './components/Navigation'
 import HomePage from './pages/HomePage'
@@ -9,7 +9,8 @@ import BookingsPage from './pages/BookingsPage'
 import ProfilePage from './pages/ProfilePage'
 import AdminPage from './pages/AdminPage'
 
-function App() {
+function AppContent() {
+  const { isLoggedIn, user } = useAuth()
   const [currentPage, setCurrentPage] = useState('home')
   const [searchParams, setSearchParams] = useState({})
 
@@ -19,19 +20,56 @@ function App() {
     window.scrollTo(0, 0)
   }
 
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'home':
+        return <HomePage onNavigate={navigate} />
+
+      case 'search':
+        return <SearchPage onNavigate={navigate} searchParams={searchParams} />
+
+      case 'vehicle':
+        if (!isLoggedIn) return <HomePage onNavigate={navigate} />
+        return (
+          <VehicleDetailPage
+            vehicleId={searchParams.id}
+            onNavigate={navigate}
+            searchParams={searchParams}
+          />
+        )
+
+      case 'bookings':
+        if (!isLoggedIn) return <HomePage onNavigate={navigate} />
+        return <BookingsPage onNavigate={navigate} />
+
+      case 'profile':
+        if (!isLoggedIn) return <HomePage onNavigate={navigate} />
+        return <ProfilePage onNavigate={navigate} />
+
+      case 'admin':
+        if (!isLoggedIn || user?.role !== 'admin') {
+          return <HomePage onNavigate={navigate} />
+        }
+        return <AdminPage onNavigate={navigate} />
+
+      default:
+        return <HomePage onNavigate={navigate} />
+    }
+  }
+
+  return (
+    <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark)', color: 'var(--text-light)' }}>
+      <Navigation onNavigate={navigate} currentPage={currentPage} />
+      {renderPage()}
+    </div>
+  )
+}
+
+function App() {
   return (
     <AuthProvider>
       <DataProvider>
-        <div style={{ minHeight: '100vh', backgroundColor: 'var(--bg-dark)', color: 'var(--text-light)' }}>
-          <Navigation onNavigate={navigate} currentPage={currentPage} />
-          
-          {currentPage === 'home' && <HomePage onNavigate={navigate} />}
-          {currentPage === 'search' && <SearchPage onNavigate={navigate} searchParams={searchParams} />}
-          {currentPage === 'vehicle' && <VehicleDetailPage vehicleId={searchParams.id} onNavigate={navigate} searchParams={searchParams} />}
-          {currentPage === 'bookings' && <BookingsPage onNavigate={navigate} />}
-          {currentPage === 'profile' && <ProfilePage onNavigate={navigate} />}
-          {currentPage === 'admin' && <AdminPage onNavigate={navigate} />}
-        </div>
+        <AppContent />
       </DataProvider>
     </AuthProvider>
   )

@@ -3,13 +3,15 @@ import { useAuth } from '../../contexts/AuthContext'
 import { X } from 'lucide-react'
 
 function SignupModal({ isOpen, onClose }) {
-  const { signup } = useAuth()
+  const { register } = useAuth()
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: '',
     phone: ''
   })
+
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -22,10 +24,22 @@ function SignupModal({ isOpen, onClose }) {
     e.preventDefault()
     setError('')
     setLoading(true)
+
     try {
-      await signup({ ...formData, role: 'customer' })
+      await register(
+        formData.name,
+        formData.email,
+        formData.password,
+        formData.phone
+      )
+
       onClose()
-      setFormData({ name: '', email: '', password: '', phone: '' })
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        phone: ''
+      })
     } catch (err) {
       setError(err.message || 'Signup failed')
     } finally {
@@ -46,7 +60,11 @@ function SignupModal({ isOpen, onClose }) {
         </div>
 
         <form onSubmit={handleSubmit} style={{ padding: '1rem', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-          {error && <div style={{ padding: '8px', backgroundColor: '#3d0d0d', color: '#ff8080', borderRadius: '4px', fontSize: '14px' }}>{error}</div>}
+          {error && (
+            <div style={{ padding: '8px', backgroundColor: '#3d0d0d', color: '#ff8080', borderRadius: '4px', fontSize: '14px' }}>
+              {error}
+            </div>
+          )}
 
           <div>
             <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: 'var(--text-light)', marginBottom: '4px' }}>Name</label>
@@ -100,7 +118,12 @@ function SignupModal({ isOpen, onClose }) {
             />
           </div>
 
-          <button type="submit" disabled={loading} className="primary" style={{ width: '100%', opacity: loading ? 0.5 : 1 }}>
+          <button
+            type="submit"
+            disabled={loading}
+            className="primary"
+            style={{ width: '100%', opacity: loading ? 0.5 : 1 }}
+          >
             {loading ? 'Creating...' : 'Sign Up'}
           </button>
         </form>

@@ -1,13 +1,19 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
-import { useData } from '../contexts/DataContext'
 
 function HomePage({ onNavigate }) {
   const { isLoggedIn } = useAuth()
-  const { vehicles } = useData()
+  const [vehicles, setVehicles] = useState([])
   const [location, setLocation] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('')
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/vehicles')
+      .then(res => res.json())
+      .then(data => setVehicles(data))
+      .catch(err => console.error('Error fetching vehicles:', err))
+  }, [])
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -61,27 +67,6 @@ function HomePage({ onNavigate }) {
       <section style={{ padding: '60px 20px', backgroundColor: 'var(--bg-dark)' }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
           <h2 style={{ fontSize: '32px', fontWeight: 'bold', textAlign: 'center', marginBottom: '32px', color: 'var(--text-light)' }}>
-            Why Choose UrbanRide?
-          </h2>
-
-          <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth < 768 ? '1fr' : 'repeat(3, 1fr)', gap: '32px' }}>
-            {features.map((feature, index) => (
-              <div key={index} style={{ backgroundColor: 'var(--bg-card)', borderRadius: '4px', padding: '24px', border: '1px solid var(--border)', transition: 'all 0.2s' }}>
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: 'var(--text-light)', marginBottom: '8px' }}>
-                  {feature.title}
-                </h3>
-                <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>
-                  {feature.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section style={{ padding: '60px 20px', backgroundColor: 'var(--bg-dark)' }}>
-        <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '32px', textAlign: 'center', color: 'var(--text-light)' }}>
             Popular Vehicles
           </h2>
 

@@ -15,9 +15,23 @@ function ProfilePage({ onNavigate }) {
     setFormData(prev => ({ ...prev, [name]: value }))
   }
 
-  const handleSave = () => {
-    updateUser(formData)
-    setIsEditing(false)
+  const handleSave = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/users/${user.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+
+      const updatedUser = await res.json()
+
+      updateUser(updatedUser)
+      setIsEditing(false)
+    } catch (err) {
+      console.error('Error updating profile:', err)
+    }
   }
 
   const handleLogout = () => {
@@ -42,7 +56,7 @@ function ProfilePage({ onNavigate }) {
                 {user?.role}
               </div>
               <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '24px' }}>
-                Member since {new Date(user?.createdAt).toLocaleDateString()}
+                Member since {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : ''}
               </p>
               <button onClick={handleLogout} className="secondary" style={{ width: '100%' }}>Logout</button>
             </div>
@@ -82,7 +96,14 @@ function ProfilePage({ onNavigate }) {
                   </div>
                   <div style={{ display: 'flex', gap: '8px', marginTop: '16px' }}>
                     <button onClick={handleSave} className="primary" style={{ flex: 1 }}>Save Changes</button>
-                    <button onClick={() => { setIsEditing(false); setFormData({ name: user?.name || '', email: user?.email || '', phone: user?.phone || '' }) }} className="secondary" style={{ flex: 1 }}>Cancel</button>
+                    <button onClick={() => {
+                      setIsEditing(false)
+                      setFormData({
+                        name: user?.name || '',
+                        email: user?.email || '',
+                        phone: user?.phone || ''
+                      })
+                    }} className="secondary" style={{ flex: 1 }}>Cancel</button>
                   </div>
                 </>
               )}

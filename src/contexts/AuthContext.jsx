@@ -1,77 +1,68 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useEffect, useState } from "react";
 
-const AuthContext = createContext()
+const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
+const API_BASE = "http://localhost:5000/api";
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
 
   useEffect(() => {
-    const stored = localStorage.getItem('urbanride_user')
-    if (stored) {
-      const userData = JSON.parse(stored)
-      setUser(userData)
-      setIsLoggedIn(true)
+    const storedUser = localStorage.getItem("user");
+    const storedToken = localStorage.getItem("token");
+
+    if (storedUser && storedToken) {
+      setUser(JSON.parse(storedUser));
+      setToken(storedToken);
     }
-  }, [])
+  }, []);
 
   const login = async (email, password) => {
-    const users = JSON.parse(localStorage.getItem('urbanride_users') || '[]')
-    const foundUser = users.find(u => u.email === email && u.password === password)
-    
-    if (!foundUser) {
-      throw new Error('Invalid email or password')
-    }
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
 
-    setUser(foundUser)
-    setIsLoggedIn(true)
-    localStorage.setItem('urbanride_user', JSON.stringify(foundUser))
-  }
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
 
-  const signup = async (userData) => {
-    const users = JSON.parse(localStorage.getItem('urbanride_users') || '[]')
-    
-    if (users.some(u => u.email === userData.email)) {
-      throw new Error('Email already exists')
-    }
+    setUser(data);
+    setToken(data.token);
 
-    const newUser = {
-      id: Date.now().toString(),
-      ...userData,
-      createdAt: new Date().toISOString()
-    }
+    localStorage.setItem("user", JSON.stringify(data));
+    localStorage.setItem("token", data.token);
+  };
 
-    users.push(newUser)
-    localStorage.setItem('urbanride_users', JSON.stringify(users))
-    
-    setUser(newUser)
-    setIsLoggedIn(true)
-    localStorage.setItem('urbanride_user', JSON.stringify(newUser))
-  }
+  const register = async (name, email, password) => {
+    const res = await fetch(`${API_BASE}/auth/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
+
+    setUser(data);
+    setToken(data.token);
+
+    localStorage.setItem("user", JSON.stringify(data));
+    localStorage.setItem("token", data.token);
+  };
 
   const logout = () => {
-    setUser(null)
-    setIsLoggedIn(false)
-    localStorage.removeItem('urbanride_user')
-  }
-
-  const updateUser = (updates) => {
-    const updated = { ...user, ...updates }
-    setUser(updated)
-    localStorage.setItem('urbanride_user', JSON.stringify(updated))
-  }
+    setUser(null);
+    setToken(null);
+    localStorage.clear();
+  };
 
   return (
-    <AuthContext.Provider value={{ user, isLoggedIn, login, signup, logout, updateUser }}>
+    <AuthContext.Provider value={{ user, token, login, register, logout }}>
       {children}
     </AuthContext.Provider>
-  )
-}
+  );
+};
 
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth must be used within AuthProvider')
-  }
-  return context
-}
+export const useAuth = () => useContext(AuthContext);
