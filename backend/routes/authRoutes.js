@@ -1,42 +1,42 @@
-const { db } = require("../config/firebase");
+const express = require("express");
+const admin = require("firebase-admin");
 
-exports.createBooking = async (req, res) => {
-  const { vehicleId, startDate, endDate } = req.body;
+const router = express.Router();
 
-  const vehicleDoc = await db.collection("vehicles").doc(vehicleId).get();
-  if (!vehicleDoc.exists)
-    return res.status(404).json({ message: "Vehicle not found" });
+// ==========================================
+// REGISTER USER (Admin SDK)
+// ==========================================
 
-  const vehicle = vehicleDoc.data();
+router.post("/register", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-  const days =
-    (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24);
+    const user = await admin.auth().createUser({
+      email,
+      password,
+    });
 
-  const totalPrice = days * vehicle.pricePerDay;
+    // Make first user admin (example logic)
+    await admin.auth().setCustomUserClaims(user.uid, { admin: true });
 
-  const booking = await db.collection("bookings").add({
-    userId: req.user.uid,
-    vehicleId,
-    startDate,
-    endDate,
-    totalPrice,
-    status: "confirmed",
-    createdAt: new Date(),
+    res.status(201).json({
+      uid: user.uid,
+      email: user.email,
+    });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+// ==========================================
+// LOGIN
+// ==========================================
+// Login should be handled in frontend using Firebase SDK
+
+router.post("/login", async (req, res) => {
+  res.status(400).json({
+    message: "Login must be handled on frontend using Firebase SDK.",
   });
+});
 
-  res.json({ id: booking.id });
-};
-
-exports.getMyBookings = async (req, res) => {
-  const snapshot = await db
-    .collection("bookings")
-    .where("userId", "==", req.user.uid)
-    .get();
-
-  const bookings = snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
-  }));
-
-  res.json(bookings);
-};
+module.exports = router;

@@ -1,39 +1,49 @@
 const express = require("express");
-const protect = require("../middleware/authMiddleware");
-const {
-  createBooking,
-  getMyBookings
-} = require("../controllers/bookingController");
 
-const router = express.Router();
+module.exports = (authMiddleware) => {
+  const router = express.Router();
 
-router.post("/", protect, createBooking);
-router.get("/my", protect, getMyBookings);
-router.get("/admin", protect, adminOnly, async (req, res) => {
-  const snapshot = await db.collection("bookings").get()
+  // ==========================================
+  // CREATE BOOKING
+  // ==========================================
+  router.post("/", authMiddleware, async (req, res) => {
+    try {
+      const { vehicleId, startDate, endDate } = req.body;
 
-  const bookings = snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data(),
-  }))
+      const docRef = await req.db.collection("bookings").add({
+        userId: req.user.uid,
+        vehicleId,
+        startDate,
+        endDate,
+        createdAt: req.admin.firestore.FieldValue.serverTimestamp(),
+      });
 
-  res.json(bookings)
-})
+      res.status(201).json({ id: docRef.id });
+    } catch (err) {
+      res.status(400).json({ message: err.message });
+    }
+  });
 
-router.delete("/:id", protect, async (req, res) => {
-  const doc = await db.collection("bookings").doc(req.params.id).get()
+  // ==========================================
+  // GET MY BOOKINGS
+  // ==========================================
+  router.get("/my", authMiddleware, async (req, res) => {
+    try {
+      const snapshot = await req.db
+        .collection("bookings")
+        .where("userId", "==", req.user.uid)
+        .get();
 
-  if (!doc.exists)
-    return res.status(404).json({ message: "Not found" })
+      const bookings = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
 
-  const booking = doc.data()
+      res.json(bookings);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+  });
 
-  if (booking.userId !== req.user.uid)
-    return res.status(403).json({ message: "Not allowed" })
-
-  await db.collection("bookings").doc(req.params.id).delete()
-
-  res.json({ message: "Booking cancelled" })
-})
-
-module.exports = router;
+  return router;
+};

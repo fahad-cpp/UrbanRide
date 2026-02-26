@@ -1,17 +1,23 @@
-const { auth } = require("../config/firebase");
+const admin = require("firebase-admin");
 
-const protect = async (req, res, next) => {
+module.exports = async function (req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
 
-  if (!token) return res.status(401).json({ message: "No token" });
+  if (!token) {
+    return res.status(401).json({ message: "No token provided" });
+  }
 
   try {
-    const decoded = await auth.verifyIdToken(token);
+    const decoded = await admin.auth().verifyIdToken(token);
+
+    // decoded contains:
+    // uid
+    // email
+    // custom claims (e.g. admin)
     req.user = decoded;
+
     next();
-  } catch {
-    res.status(401).json({ message: "Invalid token" });
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid or expired token" });
   }
 };
-
-module.exports = protect;
