@@ -24,6 +24,7 @@ router.post("/register", async (req, res) => {
       email: user.email,
     });
   } catch (err) {
+    console.log(err.message);
     res.status(400).json({ message: err.message });
   }
 });
