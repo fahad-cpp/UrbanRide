@@ -15,13 +15,13 @@ const AuthContext = createContext();
 const API_BASE = "http://localhost:5000/api";
 
 // Initialize Firebase app
-console.log(firebaseConfig);
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);   // Firebase user info
   const [token, setToken] = useState(null); // Firebase ID token
+  const isLoggedIn = !!user;
 
   // Load user & token from localStorage on mount
   useEffect(() => {
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, register, login, logout }}>
+    <AuthContext.Provider value={{ user, token,isLoggedIn, register, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

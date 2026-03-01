@@ -22,7 +22,23 @@ export const DataProvider = ({ children }) => {
       console.error("Error fetching vehicles:", error);
     }
   };
+  //get by id
+  const getVehicleById = async (id) => {
+    try {
+      const response = await fetch(`${API_BASE}/vehicles/${id}`);
 
+      if (!response.ok) {
+        throw new Error("Failed to fetch vehicle");
+      }
+
+      const data = await response.json();
+      return data;
+
+    } catch (error) {
+      console.error("Error fetching vehicle:", error);
+      return null;
+    }
+  };
   // -----------------------------
   // Search Vehicles (Frontend Filter)
   // -----------------------------
@@ -98,8 +114,9 @@ export const DataProvider = ({ children }) => {
       value={{
         vehicles,
         bookings,
+        getVehicleById,
         fetchVehicles,
-        searchVehicles,   // ✅ FIXED
+        searchVehicles,
         createBooking,
       }}
     >

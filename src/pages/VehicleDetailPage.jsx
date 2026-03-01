@@ -6,8 +6,9 @@ import { ArrowLeft } from 'lucide-react'
 function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
   const { user } = useAuth()
   const { getVehicleById, addBooking, addEmail } = useData()
-  const vehicle = getVehicleById(vehicleId)
 
+  const [vehicle, setVehicle] = useState(null)
+  const [loadingVehicle, setLoadingVehicle] = useState(true)
   const [startDate, setStartDate] = useState(searchParams?.startDate || '')
   const [endDate, setEndDate] = useState(searchParams?.endDate || '')
   const [showPayment, setShowPayment] = useState(false)
@@ -24,7 +25,25 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+  useEffect(() => {
+    const loadVehicle = async () => {
+      const data = await getVehicleById(vehicleId)
+      setVehicle(data)
+      setLoadingVehicle(false)
+    }
 
+    if (vehicleId) {
+      loadVehicle()
+    }
+  }, [vehicleId])
+
+  if (loadingVehicle) {
+    return (
+      <div style={{ minHeight: 'calc(100vh - 56px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <p style={{ color: 'var(--text-light)' }}>Loading...</p>
+      </div>
+      )
+  }
   if (!vehicle) {
     return (
       <div style={{ minHeight: 'calc(100vh - 56px)', backgroundColor: 'var(--bg-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
