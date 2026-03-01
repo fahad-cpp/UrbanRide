@@ -15,6 +15,7 @@ const AuthContext = createContext();
 const API_BASE = "http://localhost:5000/api";
 
 // Initialize Firebase app
+console.log(firebaseConfig);
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
@@ -60,6 +61,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(userData));
       localStorage.setItem("token", idToken);
     } catch (err) {
+      console.log(err.message);
       throw new Error(err.message);
     }
   };
