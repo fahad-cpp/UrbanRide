@@ -43,44 +43,6 @@ app.get("/", (req, res) => {
   res.send("Firebase Car Rental API Running");
 });
 
-app.post("/api/auth/register", async (req, res) => {
-  const { email, password, name } = req.body;
-  if (!email || !password || !name) {
-    return res.status(400).json({ message: "Name, email, and password are required" });
-  }
-
-  try {
-    const userRecord = await auth.createUser({
-      email,
-      password,
-      displayName: name,
-    });
-
-    await db.collection("users").doc(userRecord.uid).set({
-      name,
-      email,
-      createdAt: new Date(),
-    });
-
-    res.status(201).json({ uid: userRecord.uid, email: userRecord.email, name: userRecord.displayName });
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ message: error.message });
-  }
-});
-
-app.post("/api/auth/login", async (req, res) => {
-  const { idToken } = req.body;
-  if (!idToken) return res.status(400).json({ message: "ID token required" });
-
-  try {
-    const decodedToken = await auth.verifyIdToken(idToken);
-    res.status(200).json({ uid: decodedToken.uid, email: decodedToken.email });
-  } catch (err) {
-    res.status(401).json({ message: "Invalid ID token" });
-  }
-});
-
 app.get("/api/protected", authMiddleware, (req, res) => {
   res.json({ message: "This is a protected route", user: req.user });
 });

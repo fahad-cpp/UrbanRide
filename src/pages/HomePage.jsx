@@ -13,7 +13,6 @@ function HomePage({ onNavigate }) {
     fetch('http://localhost:5000/api/vehicles')
       .then(res => res.json())
       .then(data => {
-        console.log('Vehicles API response:', data)
 
         if (Array.isArray(data)) {
           setVehicles(data)
@@ -42,14 +41,14 @@ function HomePage({ onNavigate }) {
     }
   }
 
-  const features = [
-    { title: 'Easy Booking', description: 'Book your car in minutes' },
-    { title: 'Wide Selection', description: 'Multiple vehicle categories' },
-    { title: 'Best Prices', description: 'Competitive rates guaranteed' },
-    { title: '24/7 Support', description: 'Always available to help' },
-    { title: 'Safe & Secure', description: 'Insured and maintained' },
-    { title: 'Flexible Terms', description: 'Cancel anytime within 24 hours' },
-  ]
+  // const features = [
+  //   { title: 'Easy Booking', description: 'Book your car in minutes' },
+  //   { title: 'Wide Selection', description: 'Multiple vehicle categories' },
+  //   { title: 'Best Prices', description: 'Competitive rates guaranteed' },
+  //   { title: '24/7 Support', description: 'Always available to help' },
+  //   { title: 'Safe & Secure', description: 'Insured and maintained' },
+  //   { title: 'Flexible Terms', description: 'Cancel anytime within 24 hours' },
+  // ]
 
   const getSearchFormColumns = () => (windowWidth < 768 ? '1fr' : 'repeat(4, 1fr)')
   const getVehicleGridColumns = () =>

@@ -5,6 +5,22 @@ const authMiddleware = require("../middleware/authMiddleware");
 const router = express.Router();
 const db = admin.firestore();
 
+//vehicle table
+//id
+//brand
+//model
+//year
+//type
+//seats
+//fuelType
+//transmission
+//pricePerDay
+//location
+//images
+//features
+//isAvailable
+//createdAt : timestamp
+
 router.get("/", async (req, res) => {
   try {
     const snapshot = await db.collection("vehicles").get();

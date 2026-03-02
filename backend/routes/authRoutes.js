@@ -4,31 +4,65 @@ const admin = require("firebase-admin");
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
+  console.log("REGISTER ROUTE HIT")
   try {
-    const { email, password } = req.body;
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ message: "No token provided" });
+    }
 
-    const user = await admin.auth().createUser({
-      email,
-      password,
-    });
+    const token = authHeader.split(" ")[1];
 
-    await admin.auth().setCustomUserClaims(user.uid, { admin: true });
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    const uidFromToken = decodedToken.uid;
 
-    res.status(201).json({
-      uid: user.uid,
-      email: user.email,
-    });
+    const { id, phone } = req.body;
+
+    if (id !== uidFromToken) {
+      return res.status(403).json({ message: "Unauthorized UID mismatch" });
+    }
+
+    await admin.firestore().collection("users").doc(uidFromToken).set(
+      {
+        phone: String(phone),
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      },
+      { merge: true } 
+    );
+
+    res.status(200).json({ message: "User profile stored successfully" });
+
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
     res.status(400).json({ message: err.message });
   }
 });
 
 
-router.post("/login", async (req, res) => {
-  res.status(400).json({
-    message: "Login must be handled on frontend using Firebase SDK.",
-  });
+router.post("/phone", async (req, res) => {
+  try {
+    const { uid } = req.body;
+
+    if (!uid) {
+      return res.status(400).json({ message: "UID required" });
+    }
+
+    const doc = await admin.firestore()
+      .collection("users")
+      .doc(uid)
+      .get();
+
+    if (!doc.exists) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      phone: doc.data().phone || null
+    });
+
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 });
 
 module.exports = router;
