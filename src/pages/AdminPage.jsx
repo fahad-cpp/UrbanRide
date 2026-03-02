@@ -22,7 +22,6 @@ function AdminPage() {
     image: ""
   })
 
-  // ---------------- Fetch All Bookings (Admin) ----------------
   const fetchBookings = async () => {
     const res = await fetch(`${API_BASE}/bookings/admin`, {
       headers: {
@@ -39,7 +38,7 @@ function AdminPage() {
     if (token) fetchBookings()
   }, [token])
 
-  // ---------------- Add Vehicle ----------------
+
   const handleAddVehicle = async (e) => {
     e.preventDefault()
 
@@ -67,7 +66,7 @@ function AdminPage() {
     }
   }
 
-  // ---------------- Delete Vehicle ----------------
+
   const deleteVehicle = async (id) => {
     await fetch(`${API_BASE}/vehicles/${id}`, {
       method: "DELETE",

@@ -6,24 +6,21 @@ import {
   createUserWithEmailAndPassword,
   signOut
 } from "firebase/auth";
-import firebaseConfig from "./firebaseConfig"; // Load config from file
+import firebaseConfig from "./firebaseConfig"; 
 
-// Create the Auth context
+
 const AuthContext = createContext();
 
-// Your backend API base URL
 const API_BASE = "http://localhost:5000/api";
 
-// Initialize Firebase app
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);   // Firebase user info
-  const [token, setToken] = useState(null); // Firebase ID token
+  const [user, setUser] = useState(null); 
+  const [token, setToken] = useState(null);
   const isLoggedIn = !!user;
 
-  // Load user & token from localStorage on mount
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     const storedToken = localStorage.getItem("token");
@@ -33,17 +30,14 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
-  // ---------- REGISTER ----------
   const register = async (name, email, password) => {
     try {
-      // Create user in Firebase
+
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
 
-      // Get ID token
       const idToken = await firebaseUser.getIdToken();
 
-      // Call backend to save extra info (name) in Firestore
       await fetch(`${API_BASE}/auth/register`, {
         method: "POST",
         headers: {
@@ -53,7 +47,6 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ name, email })
       });
 
-      // Save user info locally
       const userData = { uid: firebaseUser.uid, email: firebaseUser.email, name };
       setUser(userData);
       setToken(idToken);
@@ -66,16 +59,13 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // ---------- LOGIN ----------
   const login = async (email, password) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
 
-      // Get ID token
       const idToken = await firebaseUser.getIdToken();
 
-      // Save user info locally
       const userData = {
         uid: firebaseUser.uid,
         email: firebaseUser.email,
@@ -91,7 +81,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // ---------- LOGOUT ----------
   const logout = async () => {
     await signOut(auth);
     setUser(null);
@@ -106,5 +95,4 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// Hook to use AuthContext in components
 export const useAuth = () => useContext(AuthContext);

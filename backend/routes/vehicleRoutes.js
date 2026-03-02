@@ -5,10 +5,6 @@ const authMiddleware = require("../middleware/authMiddleware");
 const router = express.Router();
 const db = admin.firestore();
 
-// ===============================
-// GET ALL VEHICLES
-// GET /api/vehicles
-// ===============================
 router.get("/", async (req, res) => {
   try {
     const snapshot = await db.collection("vehicles").get();
@@ -25,10 +21,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// ===============================
-// GET SINGLE VEHICLE
-// GET /api/vehicles/:id
-// ===============================
+
 router.get("/:id", async (req, res) => {
   try {
     const doc = await db.collection("vehicles").doc(req.params.id).get();
@@ -43,10 +36,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// ===============================
-// ADD VEHICLE (ADMIN ONLY)
-// POST /api/vehicles
-// ===============================
+
 router.post("/", authMiddleware, async (req, res) => {
   try {
     // optional admin check if using custom claims
@@ -65,10 +55,7 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-// ===============================
-// UPDATE VEHICLE (ADMIN ONLY)
-// PUT /api/vehicles/:id
-// ===============================
+
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
     if (!req.user.admin) {
@@ -83,10 +70,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// ===============================
-// DELETE VEHICLE (ADMIN ONLY)
-// DELETE /api/vehicles/:id
-// ===============================
+
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     if (!req.user.admin) {

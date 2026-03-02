@@ -7,7 +7,6 @@ function BookingsPage({ onNavigate }) {
   const { token } = useAuth()
   const { bookings, vehicles, fetchMyBookings } = useData()
 
-  // -------- Cancel Booking --------
   const handleCancel = async (bookingId) => {
     if (!window.confirm("Are you sure you want to cancel this booking?"))
       return

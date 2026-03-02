@@ -9,13 +9,12 @@ function HomePage({ onNavigate }) {
   const [endDate, setEndDate] = useState('')
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
 
-  // Fetch vehicles from API safely
   useEffect(() => {
     fetch('http://localhost:5000/api/vehicles')
       .then(res => res.json())
       .then(data => {
         console.log('Vehicles API response:', data)
-        // Ensure vehicles is always an array
+
         if (Array.isArray(data)) {
           setVehicles(data)
         } else if (data && Array.isArray(data.vehicles)) {
@@ -30,7 +29,6 @@ function HomePage({ onNavigate }) {
       })
   }, [])
 
-  // Track window resize
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth)
     window.addEventListener('resize', handleResize)
@@ -59,7 +57,6 @@ function HomePage({ onNavigate }) {
 
   return (
     <div>
-      {/* Hero Section */}
       <section
         style={{
           background: 'linear-gradient(135deg, var(--primary) 0%, #1e7db8 100%)',
@@ -134,7 +131,6 @@ function HomePage({ onNavigate }) {
         </div>
       </section>
 
-      {/* Popular Vehicles Section */}
       <section style={{ padding: '60px 20px', backgroundColor: 'var(--bg-dark)' }}>
         <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
           <h2
@@ -257,7 +253,6 @@ function HomePage({ onNavigate }) {
         </div>
       </section>
 
-      {/* Footer */}
       <footer
         style={{
           backgroundColor: 'var(--bg-card)',

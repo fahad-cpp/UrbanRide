@@ -3,10 +3,6 @@ const admin = require("firebase-admin");
 
 const router = express.Router();
 
-// ==========================================
-// REGISTER USER (Admin SDK)
-// ==========================================
-
 router.post("/register", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -16,7 +12,6 @@ router.post("/register", async (req, res) => {
       password,
     });
 
-    // Make first user admin (example logic)
     await admin.auth().setCustomUserClaims(user.uid, { admin: true });
 
     res.status(201).json({
@@ -29,10 +24,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// ==========================================
-// LOGIN
-// ==========================================
-// Login should be handled in frontend using Firebase SDK
 
 router.post("/login", async (req, res) => {
   res.status(400).json({

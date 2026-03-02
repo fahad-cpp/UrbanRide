@@ -9,9 +9,7 @@ export const DataProvider = ({ children }) => {
   const [vehicles, setVehicles] = useState([]);
   const [bookings, setBookings] = useState([]);
 
-  // -----------------------------
-  // Fetch All Vehicles
-  // -----------------------------
+
   const fetchVehicles = async () => {
     try {
       const res = await fetch(`${API_BASE}/vehicles`);
@@ -22,7 +20,7 @@ export const DataProvider = ({ children }) => {
       console.error("Error fetching vehicles:", error);
     }
   };
-  //get by id
+
   const getVehicleById = async (id) => {
     try {
       const response = await fetch(`${API_BASE}/vehicles/${id}`);
@@ -39,9 +37,7 @@ export const DataProvider = ({ children }) => {
       return null;
     }
   };
-  // -----------------------------
-  // Search Vehicles (Frontend Filter)
-  // -----------------------------
+
   const searchVehicles = (filters = {}) => {
     return vehicles.filter((vehicle) => {
       return (
@@ -53,9 +49,6 @@ export const DataProvider = ({ children }) => {
     });
   };
 
-  // -----------------------------
-  // Create Booking
-  // -----------------------------
   const createBooking = async (vehicleId, startDate, endDate) => {
     try {
       const res = await fetch(`${API_BASE}/bookings`, {
@@ -77,9 +70,6 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  // -----------------------------
-  // Fetch User Bookings
-  // -----------------------------
   const fetchMyBookings = async () => {
     if (!token) return;
 
@@ -98,9 +88,6 @@ export const DataProvider = ({ children }) => {
     }
   };
 
-  // -----------------------------
-  // Effects
-  // -----------------------------
   useEffect(() => {
     fetchVehicles();
   }, []);

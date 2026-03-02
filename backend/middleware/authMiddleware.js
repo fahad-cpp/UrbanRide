@@ -9,14 +9,9 @@ module.exports = async function (req, res, next) {
 
   try {
     const decoded = await admin.auth().verifyIdToken(token);
-
-    // decoded contains:
-    // uid
-    // email
-    // custom claims (e.g. admin)
     req.user = decoded;
-
     next();
+    
   } catch (err) {
     return res.status(401).json({ message: "Invalid or expired token" });
   }

@@ -3,9 +3,6 @@ const express = require("express");
 module.exports = (authMiddleware) => {
   const router = express.Router();
 
-  // ==========================================
-  // CREATE BOOKING
-  // ==========================================
   router.post("/", authMiddleware, async (req, res) => {
     try {
       const { vehicleId, startDate, endDate } = req.body;
@@ -24,9 +21,6 @@ module.exports = (authMiddleware) => {
     }
   });
 
-  // ==========================================
-  // GET MY BOOKINGS
-  // ==========================================
   router.get("/my", authMiddleware, async (req, res) => {
     try {
       const snapshot = await req.db
