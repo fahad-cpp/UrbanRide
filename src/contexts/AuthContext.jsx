@@ -52,16 +52,7 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ id:firebaseUser.uid , phone:phoneNo })
       });
 
-      console.log("Response Status:",response.status);
-      console.log("Response Text:",await response.text());
-
-      console.log("Register User");
-      console.log(firebaseUser);
-
       const userData = { uid: firebaseUser.uid, email: firebaseUser.email, name , phone : phoneNo};
-
-      console.log("Register data");
-      console.log(userData);
 
       setUser(userData);
       setToken(idToken);
@@ -81,9 +72,6 @@ export const AuthProvider = ({ children }) => {
 
       const idToken = await firebaseUser.getIdToken();
 
-      console.log("Login User");
-      console.log(firebaseUser);
-
       const response = await fetch(`${API_BASE}/auth/phone`, {
         method: "POST",
         headers: {
@@ -99,9 +87,6 @@ export const AuthProvider = ({ children }) => {
         name: firebaseUser.displayName || "",
         phone : phoneData.phone
       };
-
-      console.log("Login Data");
-      console.log(userData);
 
       setUser(userData);
       setToken(idToken);

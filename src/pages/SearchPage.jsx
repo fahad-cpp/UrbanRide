@@ -125,7 +125,7 @@ function SearchPage({ onNavigate, searchParams }) {
 
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <span style={{ fontSize: '18px', fontWeight: 'bold', color: 'var(--primary)' }}>
-                      ${vehicle.pricePerDay}/day
+                      ₹{vehicle.pricePerDay}/day
                     </span>
 
                     {isLoggedIn ? (

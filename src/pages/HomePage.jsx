@@ -93,11 +93,7 @@ function HomePage({ onNavigate }) {
               required
             >
               <option value="">Location</option>
-              <option value="New York">New York</option>
-              <option value="Los Angeles">Los Angeles</option>
-              <option value="San Francisco">San Francisco</option>
-              <option value="Chicago">Chicago</option>
-              <option value="Miami">Miami</option>
+              <option value="Ahmedabad">Ahmedabad</option>
             </select>
             <input
               type="date"
@@ -189,7 +185,7 @@ function HomePage({ onNavigate }) {
                         fontWeight: 'bold',
                       }}
                     >
-                      ${vehicle.pricePerDay || 'N/A'}/day
+                      ₹{vehicle.pricePerDay || 'N/A'}/day
                     </div>
                   </div>
 
@@ -222,7 +218,7 @@ function HomePage({ onNavigate }) {
 
                     {isLoggedIn ? (
                       <button
-                        onClick={() => onNavigate('vehicle', { id: vehicle.id })}
+                        onClick={() => onNavigate('vehicle', { id: vehicle.id})}
                         className="primary"
                         style={{ width: '100%', padding: '8px', fontSize: '14px' }}
                       >

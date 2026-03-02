@@ -170,8 +170,17 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
               <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: 'var(--text-light)', marginBottom: '8px' }}>
                 {vehicle.name}
               </h1>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '24px' }}>
+              <p style={{ color: 'var(--text-light)', marginBottom: '10px' }}>
                 {vehicle.year} {vehicle.brand} {vehicle.model}
+              </p>
+              <p style={{ color: 'var(--text-muted)', marginBottom: '6px' }}>
+                Transmission : {vehicle.transmission}
+              </p>
+              <p style={{ color: 'var(--text-muted)', marginBottom: '8px' }}>
+                Fuel Type : {vehicle.fuelType}
+              </p>
+              <p style={{ color: 'var(--text-light)', marginBottom: '6px' }}>
+                Price: ₹{vehicle.pricePerDay}/day
               </p>
             </div>
           </div>
@@ -193,7 +202,7 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
               </div>
 
               <div>
-                <p style={{ color: 'var(--text-light)' }}>Total: <strong>${totalPrice}</strong></p>
+                <p style={{ color: 'var(--text-light)' }}>Total: <strong>₹{totalPrice}</strong></p>
               </div>
 
               {!showPayment ? (
