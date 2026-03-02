@@ -198,7 +198,7 @@ function HomePage({ onNavigate }) {
                         marginBottom: '12px',
                       }}
                     >
-                      {vehicle.name || 'Unknown'}
+                      {vehicle.brand} {vehicle.name || 'Unknown'}
                     </h3>
                     <div
                       style={{

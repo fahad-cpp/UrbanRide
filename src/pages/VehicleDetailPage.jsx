@@ -168,10 +168,10 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
 
             <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '4px', padding: '24px', border: '1px solid var(--border)' }}>
               <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: 'var(--text-light)', marginBottom: '8px' }}>
-                {vehicle.name}
+                {vehicle.brand} {vehicle.name} {vehicle.model}
               </h1>
               <p style={{ color: 'var(--text-light)', marginBottom: '10px' }}>
-                {vehicle.year} {vehicle.brand} {vehicle.model}
+                Year : {vehicle.year}
               </p>
               <p style={{ color: 'var(--text-muted)', marginBottom: '6px' }}>
                 Transmission : {vehicle.transmission}

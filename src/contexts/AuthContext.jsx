@@ -81,11 +81,13 @@ export const AuthProvider = ({ children }) => {
         body: JSON.stringify({ uid:firebaseUser.uid})
       });
       const phoneData = await response.json();
+      const role = firebaseUser.email == "admin@gmail.com"?"admin":"user";
       const userData = {
         uid: firebaseUser.uid,
         email: firebaseUser.email,
         name: firebaseUser.displayName || "",
-        phone : phoneData.phone
+        phone : phoneData.phone,
+        role : role
       };
 
       setUser(userData);

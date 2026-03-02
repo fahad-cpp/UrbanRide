@@ -115,7 +115,7 @@ function SearchPage({ onNavigate, searchParams }) {
 
                 <div style={{ padding: '16px' }}>
                   <h3 style={{ fontWeight: 'bold', color: 'var(--text-light)', marginBottom: '8px' }}>
-                    {vehicle.name}
+                    {vehicle.brand} {vehicle.name}
                   </h3>
 
                   <div style={{ fontSize: '12px', color: 'var(--text-muted)', marginBottom: '12px' }}>
