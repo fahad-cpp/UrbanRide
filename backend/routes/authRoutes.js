@@ -4,7 +4,6 @@ const admin = require("firebase-admin");
 const router = express.Router();
 
 router.post("/register", async (req, res) => {
-  console.log("REGISTER ROUTE HIT")
   try {
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {

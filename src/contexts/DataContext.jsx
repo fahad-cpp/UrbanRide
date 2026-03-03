@@ -49,27 +49,30 @@ export const DataProvider = ({ children }) => {
     });
   };
 
-  const createBooking = async (vehicleId, startDate, endDate) => {
-    try {
-      const res = await fetch(`${API_BASE}/bookings`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ vehicleId, startDate, endDate }),
-      });
+  const createBooking = async (booking) => {
+  try {
+    const res = await fetch(`${API_BASE}/bookings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(booking),
+    });
 
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message);
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.message);
 
-      await fetchMyBookings();
-    } catch (error) {
-      console.error("Booking error:", error);
-      throw error;
-    }
-  };
+    // Optionally refresh your bookings
+    await fetchMyBookings();
 
+    // Return the booking ID
+    return data.id || data.bookingId;
+  } catch (error) {
+    console.error("Booking error:", error);
+    throw error;
+  }
+};
   const fetchMyBookings = async () => {
     if (!token) return;
 

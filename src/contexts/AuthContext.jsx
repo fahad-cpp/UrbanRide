@@ -15,8 +15,8 @@ const AuthContext = createContext();
 
 const API_BASE = "http://localhost:5000/api";
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const app = await initializeApp(firebaseConfig);
+const auth = await getAuth(app);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null); 
@@ -36,13 +36,13 @@ export const AuthProvider = ({ children }) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const firebaseUser = userCredential.user;
-
+      
       await updateProfile(firebaseUser , {
         displayName : name
       })
-
-      const idToken = await firebaseUser.getIdToken();
-
+      
+      
+      const idToken = await firebaseUser.getIdToken(true);
       const response = await fetch(`${API_BASE}/auth/register`, {
         method: "POST",
         headers: {
@@ -51,8 +51,8 @@ export const AuthProvider = ({ children }) => {
         },
         body: JSON.stringify({ id:firebaseUser.uid , phone:phoneNo })
       });
-
-      const userData = { uid: firebaseUser.uid, email: firebaseUser.email, name , phone : phoneNo};
+      const role = firebaseUser.email == "admin@gmail.com"?"admin":"user";
+      const userData = { uid: firebaseUser.uid, email: firebaseUser.email, name , phone : phoneNo, role};
 
       setUser(userData);
       setToken(idToken);

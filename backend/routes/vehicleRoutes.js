@@ -55,10 +55,6 @@ router.get("/:id", async (req, res) => {
 
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    // optional admin check if using custom claims
-    if (!req.user.admin) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
 
     const docRef = await db.collection("vehicles").add({
       ...req.body,
@@ -74,9 +70,6 @@ router.post("/", authMiddleware, async (req, res) => {
 
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
-    if (!req.user.admin) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
 
     await db.collection("vehicles").doc(req.params.id).update(req.body);
 
@@ -89,10 +82,6 @@ router.put("/:id", authMiddleware, async (req, res) => {
 
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
-    if (!req.user.admin) {
-      return res.status(403).json({ message: "Not authorized" });
-    }
-
     await db.collection("vehicles").doc(req.params.id).delete();
 
     res.json({ message: "Vehicle deleted successfully" });

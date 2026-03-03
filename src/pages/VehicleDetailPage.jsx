@@ -5,7 +5,7 @@ import { ArrowLeft } from 'lucide-react'
 
 function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
   const { user } = useAuth()
-  const { getVehicleById, addBooking, addEmail } = useData()
+  const { getVehicleById, createBooking, addEmail } = useData()
 
   const [vehicle, setVehicle] = useState(null)
   const [loadingVehicle, setLoadingVehicle] = useState(true)
@@ -86,7 +86,7 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
     try {
       setLoading(true)
 
-      const bookingId = await addBooking({
+      const bookingId = await createBooking({
         userId: user.uid,
         vehicleId: vehicle.id,
         startDate,
@@ -99,18 +99,18 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
         paymentStatus: 'paid',
         confirmationEmail: user.email
       })
-
-      await addEmail({
-        to: user.email,
-        subject: 'Booking Confirmation',
-        type: 'booking_confirmation',
-        vehicleName: vehicle.name,
-        customerName: user.displayName || user.name,
-        bookingId,
-        startDate,
-        endDate,
-        totalPrice
-      })
+      //Handle later
+      // await addEmail({
+      //   to: user.email,
+      //   subject: 'Booking Confirmation',
+      //   type: 'booking_confirmation',
+      //   vehicleName: vehicle.name,
+      //   customerName: user.displayName || user.name,
+      //   bookingId,
+      //   startDate,
+      //   endDate,
+      //   totalPrice
+      // })
 
       setConfirmationId(bookingId)
       setBookingConfirmed(true)
