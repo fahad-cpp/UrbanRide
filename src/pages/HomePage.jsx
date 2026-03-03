@@ -113,16 +113,6 @@ function HomePage({ onNavigate }) {
               Search
             </button>
           </form>
-
-          {!isLoggedIn && (
-            <button
-              onClick={() => onNavigate('home')}
-              className="primary"
-              style={{ padding: '12px 32px', fontSize: '18px' }}
-            >
-              Get Started
-            </button>
-          )}
         </div>
       </section>
 
