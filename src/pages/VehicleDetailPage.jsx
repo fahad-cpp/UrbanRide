@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useData } from '../contexts/DataContext'
 import { ArrowLeft } from 'lucide-react'
+import '../styles/vehicle-detail.css'
 
 function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
   const { user } = useAuth()
@@ -25,6 +26,7 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
     window.addEventListener('resize', handleResize)
     return () => window.removeEventListener('resize', handleResize)
   }, [])
+
   useEffect(() => {
     const loadVehicle = async () => {
       const data = await getVehicleById(vehicleId)
@@ -39,19 +41,21 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
 
   if (loadingVehicle) {
     return (
-      <div style={{ minHeight: 'calc(100vh - 56px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <p style={{ color: 'var(--text-light)' }}>Loading...</p>
+      <div className="vehicle-detail-loading">
+        <div className="spinner"></div>
+        <p>Loading vehicle details...</p>
       </div>
-      )
+    )
   }
+
   if (!vehicle) {
     return (
-      <div style={{ minHeight: 'calc(100vh - 56px)', backgroundColor: 'var(--bg-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-        <div style={{ textAlign: 'center' }}>
-          <p style={{ fontSize: '20px', color: 'var(--text-light)', marginBottom: '16px' }}>
-            Vehicle not found
-          </p>
-          <button onClick={() => onNavigate('search')} className="primary">
+      <div className="vehicle-detail-error">
+        <div className="error-content">
+          <div className="error-icon">-</div>
+          <h2>Vehicle Not Found</h2>
+          <p>Sorry, we couldn't find the vehicle you're looking for.</p>
+          <button onClick={() => onNavigate('search')} className="btn-back-search">
             Back to Search
           </button>
         </div>
@@ -99,18 +103,6 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
         paymentStatus: 'paid',
         confirmationEmail: user.email
       })
-      //Handle later
-      // await addEmail({
-      //   to: user.email,
-      //   subject: 'Booking Confirmation',
-      //   type: 'booking_confirmation',
-      //   vehicleName: vehicle.name,
-      //   customerName: user.displayName || user.name,
-      //   bookingId,
-      //   startDate,
-      //   endDate,
-      //   totalPrice
-      // })
 
       setConfirmationId(bookingId)
       setBookingConfirmed(true)
@@ -127,19 +119,18 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
 
   if (bookingConfirmed) {
     return (
-      <div style={{ minHeight: 'calc(100vh - 56px)', backgroundColor: 'var(--bg-dark)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }}>
-        <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '4px', padding: '32px', textAlign: 'center', border: '1px solid var(--border)', maxWidth: '28rem', width: '100%' }}>
-          <div style={{ fontSize: '48px', marginBottom: '16px' }}>✓</div>
-          <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--text-light)', marginBottom: '16px' }}>
-            Booking Confirmed
-          </h2>
-          <p style={{ color: 'var(--text-muted)', marginBottom: '16px' }}>
-            Confirmation email sent to {user.email}
+      <div className="vehicle-detail-success">
+        <div className="success-card">
+          <div className="success-icon">Success</div>
+          <h2 className="success-title">Booking Confirmed</h2>
+          <p className="success-message">
+            Confirmation email sent to <span className="user-email">{user.email}</span>
           </p>
-          <p style={{ fontSize: '18px', fontWeight: 'bold', color: 'var(--text-light)', marginBottom: '24px' }}>
-            Booking ID: {confirmationId}
-          </p>
-          <button onClick={() => onNavigate('bookings')} className="primary" style={{ width: '100%' }}>
+          <div className="booking-id-display">
+            <span className="id-label">Booking ID</span>
+            <span className="id-value">{confirmationId}</span>
+          </div>
+          <button onClick={() => onNavigate('bookings')} className="btn-view-bookings">
             View My Bookings
           </button>
         </div>
@@ -148,99 +139,158 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
   }
 
   return (
-    <div style={{ minHeight: 'calc(100vh - 56px)', backgroundColor: 'var(--bg-dark)', padding: '32px 20px' }}>
-      <div style={{ maxWidth: '80rem', margin: '0 auto' }}>
-
+    <div className="vehicle-detail-page">
+      <div className="vehicle-detail-header">
         <button
           onClick={() => onNavigate('search', searchParams)}
-          style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', marginBottom: '24px', display: 'flex', alignItems: 'center', gap: '8px' }}
+          className="btn-back-nav"
         >
           <ArrowLeft size={20} />
-          Back to Search
+          Back to Results
         </button>
+      </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '2fr 1fr', gap: '32px' }}>
+      <div className="vehicle-detail-container">
+        <div className="vehicle-detail-grid">
           
-          <div>
-            <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '4px', overflow: 'hidden', marginBottom: '32px', border: '1px solid var(--border)' }}>
-              <img src={vehicle.image} alt={vehicle.name} style={{ width: '100%', height: '300px', objectFit: 'cover' }} />
+          <div className="vehicle-main">
+            <div className="vehicle-image-section">
+              <img src={vehicle.image} alt={vehicle.name} className="vehicle-detail-image" />
+              <div className="image-badge">{vehicle.type}</div>
             </div>
 
-            <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '4px', padding: '24px', border: '1px solid var(--border)' }}>
-              <h1 style={{ fontSize: '28px', fontWeight: 'bold', color: 'var(--text-light)', marginBottom: '8px' }}>
-                {vehicle.brand} {vehicle.name} {vehicle.model}
-              </h1>
-              <p style={{ color: 'var(--text-light)', marginBottom: '10px' }}>
-                Year : {vehicle.year}
-              </p>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '6px' }}>
-                Transmission : {vehicle.transmission}
-              </p>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '8px' }}>
-                Fuel Type : {vehicle.fuelType}
-              </p>
-              <p style={{ color: 'var(--text-light)', marginBottom: '6px' }}>
-                Price: ₹{vehicle.pricePerDay}/day
-              </p>
+            <div className="vehicle-info-card">
+              <div className="vehicle-header-info">
+                <h1 className="vehicle-title">
+                  {vehicle.brand} {vehicle.name}
+                  <span className="vehicle-model-detail">{vehicle.model}</span>
+                </h1>
+              </div>
+
+              <div className="vehicle-details-grid">
+                <div className="detail-row">
+                  <span className="detail-label">Year</span>
+                  <span className="detail-value">{vehicle.year}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Transmission</span>
+                  <span className="detail-value">{vehicle.transmission}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Fuel Type</span>
+                  <span className="detail-value">{vehicle.fuelType}</span>
+                </div>
+                <div className="detail-row">
+                  <span className="detail-label">Seats</span>
+                  <span className="detail-value">{vehicle.seats || '-'}</span>
+                </div>
+              </div>
+
+              <div className="price-highlight">
+                <span className="price-label">Daily Rate</span>
+                <span className="price-display">₹{vehicle.pricePerDay}</span>
+              </div>
             </div>
           </div>
 
-          <div>
-            <div style={{ backgroundColor: 'var(--bg-card)', borderRadius: '4px', padding: '24px', border: '1px solid var(--border)', display: 'flex', flexDirection: 'column', gap: '20px' }}>
-              <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: 'var(--text-light)' }}>
-                Book This Vehicle
-              </h2>
+          <div className="booking-sidebar">
+            <div className="booking-card">
+              <h2 className="booking-title">Book This Vehicle</h2>
 
-              <div>
-                <label style={{ color: 'var(--text-light)' }}>Start Date</label>
-                <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
+              <div className="booking-form-group">
+                <div className="form-field">
+                  <label className="form-label">Pickup Date</label>
+                  <input
+                    type="date"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className="form-date-input"
+                    required
+                  />
+                </div>
+
+                <div className="form-field">
+                  <label className="form-label">Return Date</label>
+                  <input
+                    type="date"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="form-date-input"
+                    required
+                  />
+                </div>
               </div>
 
-              <div>
-                <label style={{ color: 'var(--text-light)' }}>End Date</label>
-                <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-              </div>
-
-              <div>
-                <p style={{ color: 'var(--text-light)' }}>Total: <strong>₹{totalPrice}</strong></p>
-              </div>
+              {totalDays > 0 && (
+                <div className="booking-summary">
+                  <div className="summary-row">
+                    <span className="summary-label">Duration</span>
+                    <span className="summary-value">{totalDays} days</span>
+                  </div>
+                  <div className="summary-row">
+                    <span className="summary-label">Rate per day</span>
+                    <span className="summary-value">₹{vehicle.pricePerDay}</span>
+                  </div>
+                  <div className="summary-divider"></div>
+                  <div className="summary-row total">
+                    <span className="summary-label">Total Amount</span>
+                    <span className="summary-value total-price">₹{totalPrice}</span>
+                  </div>
+                </div>
+              )}
 
               {!showPayment ? (
                 <button
                   onClick={() => setShowPayment(true)}
                   disabled={totalDays <= 0}
-                  className="primary"
+                  className="btn-proceed-payment"
                 >
-                  Proceed to Payment
+                  <span>Proceed to Payment</span>
+                  <span className="btn-arrow">→</span>
                 </button>
               ) : (
-                <form onSubmit={handlePayment} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  <input
-                    type="text"
-                    value={cardNumber}
-                    onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, '').slice(0, 16))}
-                    placeholder="Card Number"
-                  />
-                  <input
-                    type="text"
-                    value={expiryDate}
-                    onChange={(e) => setExpiryDate(e.target.value)}
-                    placeholder="MM/YY"
-                  />
-                  <input
-                    type="text"
-                    value={cvv}
-                    onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
-                    placeholder="CVV"
-                  />
+                <form onSubmit={handlePayment} className="payment-form">
+                  <h3 className="payment-title">Payment Details</h3>
 
-                  <button type="submit" disabled={loading} className="primary">
-                    {loading ? 'Processing...' : 'Pay Now'}
-                  </button>
+                  <div className="payment-inputs">
+                    <input
+                      type="text"
+                      value={cardNumber}
+                      onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, '').slice(0, 16))}
+                      placeholder="Card Number"
+                      className="payment-input"
+                      maxLength="16"
+                      required
+                    />
+                    <div className="payment-row">
+                      <input
+                        type="text"
+                        value={expiryDate}
+                        onChange={(e) => setExpiryDate(e.target.value)}
+                        placeholder="MM/YY"
+                        className="payment-input half"
+                        required
+                      />
+                      <input
+                        type="text"
+                        value={cvv}
+                        onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
+                        placeholder="CVV"
+                        className="payment-input half"
+                        maxLength="3"
+                        required
+                      />
+                    </div>
+                  </div>
 
-                  <button type="button" onClick={() => setShowPayment(false)} className="secondary">
-                    Cancel
-                  </button>
+                  <div className="payment-buttons">
+                    <button type="submit" disabled={loading} className="btn-pay-now">
+                      {loading ? 'Processing...' : 'Pay Now'}
+                    </button>
+                    <button type="button" onClick={() => setShowPayment(false)} className="btn-cancel-payment">
+                      Cancel
+                    </button>
+                  </div>
                 </form>
               )}
             </div>
