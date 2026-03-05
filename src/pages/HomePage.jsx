@@ -145,8 +145,8 @@ function HomePage({ onNavigate }) {
 
                   <div className="vehicle-content">
                     <h3 className="vehicle-name">
-                      {vehicle.brand}
-                      <span className="model-name">{vehicle.name || 'Unknown'}</span>
+                      {vehicle.name}
+                      <span className="model-name">{vehicle.brand || 'Unknown'}</span>
                     </h3>
                     
                     <div className="vehicle-specs">

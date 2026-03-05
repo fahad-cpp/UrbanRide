@@ -30,6 +30,7 @@ router.get("/", async (req, res) => {
       ...doc.data(),
     }));
 
+    console.log(vehicles)
     res.json(vehicles);
   } catch (err) {
     console.log(err.message);

@@ -119,7 +119,7 @@ function SearchPage({ onNavigate, searchParams }) {
               className="filter-select"
             >
               <option value="">All Types</option>
-              {['economy', 'compact', 'sedan', 'suv', 'luxury'].map(t => (
+              {['Economy', 'Compact', 'Sedan', 'SUV', 'Luxury','Electric'].map(t => (
                 <option key={t} value={t}>
                   {t.charAt(0).toUpperCase() + t.slice(1)}
                 </option>
