@@ -58,7 +58,6 @@ function BookingsPage({ onNavigate }) {
 
   return (
     <div className="bookings-page">
-      {/* Header */}
       <div className="bookings-header">
         <div className="bookings-header-content">
           <div>
@@ -76,7 +75,6 @@ function BookingsPage({ onNavigate }) {
         </div>
       </div>
 
-      {/* Success Message */}
       {successMessage && (
         <div className="alert alert-success">
           <span className="alert-icon">Success</span>
@@ -84,7 +82,6 @@ function BookingsPage({ onNavigate }) {
         </div>
       )}
 
-      {/* Content */}
       <div className="bookings-container">
         {bookings.length === 0 ? (
           <div className="empty-state">
@@ -123,7 +120,6 @@ function BookingsPage({ onNavigate }) {
                     )
                   }
                 >
-                  {/* Card Header */}
                   <div className="booking-card-header">
                     <div className="booking-vehicle-info">
                       {vehicle?.image && (
@@ -145,7 +141,6 @@ function BookingsPage({ onNavigate }) {
                     </div>
                   </div>
 
-                  {/* Card Body */}
                   <div className="booking-card-body">
                     <div className="booking-timeline">
                       <div className="timeline-item">
@@ -182,7 +177,6 @@ function BookingsPage({ onNavigate }) {
                       </div>
                     </div>
 
-                    {/* Expandable Section */}
                     {expandedBooking === booking.id && (
                       <div className="booking-expanded">
                         <div className="expanded-divider"></div>
@@ -214,7 +208,6 @@ function BookingsPage({ onNavigate }) {
                           </div>
                         </div>
 
-                        {/* Action Buttons */}
                         <div className="booking-actions">
                           <button
                             className="btn-view-details"
@@ -247,7 +240,6 @@ function BookingsPage({ onNavigate }) {
                     )}
                   </div>
 
-                  {/* Expand Indicator */}
                   <div className="card-expand-indicator">
                     <span className="indicator-text">
                       {expandedBooking === booking.id ? "Collapse" : "Expand"}

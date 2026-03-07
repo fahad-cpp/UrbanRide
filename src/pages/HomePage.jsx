@@ -47,7 +47,6 @@ function HomePage({ onNavigate }) {
 
   return (
     <div className="home-page">
-      {/* Hero Section */}
       <section className="hero-section">
         <div className="hero-background">
           <div className="gradient-orb orb-1"></div>
@@ -111,7 +110,6 @@ function HomePage({ onNavigate }) {
         </div>
       </section>
 
-      {/* Popular Vehicles Section */}
       <section className="vehicles-section">
         <div className="container">
           <div className="section-header">
@@ -192,7 +190,6 @@ function HomePage({ onNavigate }) {
         </div>
       </section>
 
-      {/* Trust Section */}
       <section className="trust-section">
         <div className="container">
           <div className="section-header trust-header">
@@ -232,7 +229,6 @@ function HomePage({ onNavigate }) {
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="footer">
         <div className="container">
           <div className="footer-content">

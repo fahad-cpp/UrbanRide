@@ -129,7 +129,6 @@ function AdminPage() {
 
   return (
     <div className="admin-page">
-      {/* Header */}
       <div className="admin-header">
         <div className="admin-header-content">
           <div>
@@ -143,7 +142,6 @@ function AdminPage() {
         </div>
       </div>
 
-      {/* Messages */}
       {successMessage && (
         <div className="alert alert-success">
           <span className="alert-icon">Success</span>
@@ -157,7 +155,6 @@ function AdminPage() {
         </div>
       )}
 
-      {/* Tab Navigation */}
       <div className="admin-nav">
         <button
           className={`nav-button ${selectedTab === "overview" ? "active" : ""}`}
@@ -183,7 +180,6 @@ function AdminPage() {
       </div>
 
       <div className="admin-container">
-        {/* Overview Tab */}
         {selectedTab === "overview" && (
           <div className="tab-content">
             <div className="stats-grid">
@@ -245,7 +241,6 @@ function AdminPage() {
           </div>
         )}
 
-        {/* Vehicles Tab */}
         {selectedTab === "vehicles" && (
           <div className="tab-content">
             <div className="vehicles-header">
@@ -458,7 +453,6 @@ function AdminPage() {
           </div>
         )}
 
-        {/* Bookings Tab */}
         {selectedTab === "bookings" && (
           <div className="tab-content">
             <h2>Booking Management</h2>

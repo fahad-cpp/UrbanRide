@@ -49,7 +49,6 @@ function SearchPage({ onNavigate, searchParams }) {
 
   return (
     <div className="search-page">
-      {/* Header Section */}
       <div className="search-header">
         <div className="search-header-content">
           <div>
@@ -62,7 +61,6 @@ function SearchPage({ onNavigate, searchParams }) {
       </div>
 
       <div className="search-container">
-        {/* Search Form */}
         <form onSubmit={handleSubmit} className="search-form">
           <div className="form-group">
             <label htmlFor="location" className="form-label">Location</label>
@@ -108,7 +106,6 @@ function SearchPage({ onNavigate, searchParams }) {
           </button>
         </form>
 
-        {/* Filters Section */}
         <div className="filters-section">
           <div className="filter-group">
             <label htmlFor="vehicleType" className="filter-label">Vehicle Type</label>
@@ -135,7 +132,6 @@ function SearchPage({ onNavigate, searchParams }) {
           )}
         </div>
 
-        {/* Results Section */}
         {results.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">-</div>
@@ -168,7 +164,6 @@ function SearchPage({ onNavigate, searchParams }) {
                   onMouseEnter={() => setHoveredVehicle(vehicle.id)}
                   onMouseLeave={() => setHoveredVehicle(null)}
                 >
-                  {/* Image Section */}
                   <div className="vehicle-image-wrapper">
                     <img
                       src={vehicle.image}
@@ -183,7 +178,6 @@ function SearchPage({ onNavigate, searchParams }) {
                     </div>
                   </div>
 
-                  {/* Card Content */}
                   <div className="vehicle-card-content">
                     <h3 className="vehicle-card-title">
                       {vehicle.brand}
