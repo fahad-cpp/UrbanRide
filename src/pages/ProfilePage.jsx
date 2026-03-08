@@ -8,9 +8,9 @@ function ProfilePage({ onNavigate }) {
   const [loading, setLoading] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
   const [formData, setFormData] = useState({
-    name: user?.name || '',
-    email: user?.email || '',
-    phone: user?.phone || ''
+    name: user?.name || 'N/A',
+    email: user?.email || 'N/A',
+    phone: user?.phone || 'N/A'
   })
 
   const handleChange = (e) => {

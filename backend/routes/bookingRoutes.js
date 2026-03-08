@@ -18,7 +18,6 @@ router.post("/", authMiddleware, async (req, res) => {
       confirmationEmail,
     } = req.body;
 
-    // Ensure required fields exist
     if (!vehicleId || !startDate || !endDate) {
       return res.status(400).json({ message: "Missing required fields" });
     }
