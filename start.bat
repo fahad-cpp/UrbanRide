@@ -1,3 +1,4 @@
+@echo off
 start "" npm run dev
 
 pushd backend

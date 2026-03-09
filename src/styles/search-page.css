@@ -492,6 +492,67 @@
   box-shadow: 0 8px 24px rgba(49, 168, 255, 0.3);
 }
 
+/* ========== LOADING STATE ========== */
+
+.loading-state {
+  text-align: center;
+  padding: 80px 20px;
+  color: var(--text-muted);
+  font-size: 16px;
+  animation: slideInUp 0.5s ease-out;
+}
+
+/* ========== PAGINATION ========== */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 48px;
+  padding: 32px 0;
+  border-top: 1px solid var(--border-light);
+  animation: slideInUp 0.5s ease-out;
+}
+
+.pagination-info {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 120px;
+  text-align: center;
+}
+
+.btn-pagination {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+  border: 1px solid var(--border-light);
+  color: var(--text-light);
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-pagination:hover:not(:disabled) {
+  border-color: var(--primary);
+  background: linear-gradient(135deg, var(--primary-subtle), rgba(0, 212, 255, 0.1));
+  color: var(--primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(49, 168, 255, 0.2);
+}
+
+.btn-pagination:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 /* ========== ANIMATIONS ========== */
 
 @keyframes slideInDown {
@@ -605,6 +666,26 @@
   .vehicle-specs-grid {
     gap: 8px;
     padding: 8px 0;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 32px;
+    padding: 24px 0;
+  }
+
+  .btn-pagination {
+    width: 100%;
+    padding: 12px 20px;
+  }
+
+  .pagination-info {
+    width: 100%;
+  }
+
+  .loading-state {
+    padding: 60px 16px;
   }
 }
 
@@ -739,5 +820,21 @@
   .btn-back-home {
     padding: 10px 24px;
     font-size: 13px;
+  }
+
+  .pagination {
+    gap: 12px;
+    margin-top: 24px;
+    padding: 16px 0;
+  }
+
+  .btn-pagination {
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .pagination-info {
+    font-size: 12px;
+    min-width: auto;
   }
 }

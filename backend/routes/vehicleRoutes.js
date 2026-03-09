@@ -21,16 +21,17 @@ const db = admin.firestore();
 //isAvailable
 //createdAt : timestamp
 
-router.get("/", async (req, res) => {
+// Get featured vehicles (homepage - only 4 vehicles)
+router.get("/featured", async (req, res) => {
   try {
-    const snapshot = await db.collection("vehicles").get();
+    const snapshot = await db.collection("vehicles")
+      .limit(4)
+      .get();
 
     const vehicles = snapshot.docs.map(doc => ({
       id: doc.id,
       ...doc.data(),
     }));
-
-    console.log(vehicles)
     res.json(vehicles);
   } catch (err) {
     console.log(err.message);
@@ -38,7 +39,68 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Get paginated vehicles (for search/listings)
+router.get("/paginated", async (req, res) => {
+  try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 12;
+    const location = req.query.location;
 
+    let query = db.collection("vehicles");
+
+    // Filter by location if provided
+    if (location) {
+      query = query.where("location", "==", location);
+    }
+
+    // Get total count for pagination
+    const countSnapshot = await query.get();
+    const totalCount = countSnapshot.size;
+
+    // Get paginated results
+    const startIndex = (page - 1) * limit;
+    const snapshot = await query
+      .limit(limit)
+      .offset(startIndex)
+      .get();
+
+    const vehicles = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    res.json({
+      vehicles,
+      pagination: {
+        page,
+        limit,
+        total: totalCount,
+        pages: Math.ceil(totalCount / limit),
+      },
+    });
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get all vehicles (use sparingly - for admin only)
+router.get("/all", authMiddleware, async (req, res) => {
+  try {
+    const snapshot = await db.collection("vehicles").get();
+
+    const vehicles = snapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    res.json(vehicles);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Get single vehicle by ID
 router.get("/:id", async (req, res) => {
   try {
     const doc = await db.collection("vehicles").doc(req.params.id).get();
@@ -53,7 +115,7 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-
+// Create vehicle
 router.post("/", authMiddleware, async (req, res) => {
   try {
 
@@ -68,7 +130,7 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-
+// Update vehicle
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
 
@@ -80,7 +142,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-
+// Delete vehicle
 router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     await db.collection("vehicles").doc(req.params.id).delete();

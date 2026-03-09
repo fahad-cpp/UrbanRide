@@ -9,9 +9,11 @@ function HomePage({ onNavigate }) {
   const [endDate, setEndDate] = useState('')
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const [hoveredCard, setHoveredCard] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/vehicles')
+    // Load only 4 featured vehicles for homepage
+    fetch('http://localhost:5000/api/vehicles/featured')
       .then(res => res.json())
       .then(data => {
         if (Array.isArray(data)) {
@@ -26,6 +28,7 @@ function HomePage({ onNavigate }) {
         console.error('Error fetching vehicles:', err)
         setVehicles([])
       })
+      .finally(() => setLoading(false))
   }, [])
 
   useEffect(() => {
@@ -117,76 +120,90 @@ function HomePage({ onNavigate }) {
             <p className="section-subtitle">Handpicked vehicles for your journey</p>
           </div>
 
-          <div className="vehicles-grid" style={{ gridTemplateColumns: getVehicleGridColumns() }}>
-            {Array.isArray(vehicles) &&
-              vehicles.slice(0, 4).map((vehicle, index) => (
-                <div 
-                  key={vehicle.id || index} 
-                  className="vehicle-card"
-                  onMouseEnter={() => setHoveredCard(vehicle.id || index)}
-                  onMouseLeave={() => setHoveredCard(null)}
-                >
-                  <div className="vehicle-image-wrapper">
-                    <img
-                      src={vehicle.image || '/placeholder.png'}
-                      alt={vehicle.name || 'Vehicle'}
-                      className="vehicle-image"
-                    />
-                    <div className="image-overlay"></div>
-                    <div className="price-badge">
-                      <span className="price-currency">₹</span>
-                      <span className="price-amount">{vehicle.pricePerDay || 'N/A'}</span>
-                      <span className="price-period">/day</span>
-                    </div>
-                    <div className="featured-badge">Featured</div>
+          {loading ? (
+            <div className="vehicles-grid" style={{ gridTemplateColumns: getVehicleGridColumns() }}>
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="vehicle-card loading-skeleton">
+                  <div className="skeleton-image"></div>
+                  <div className="skeleton-content">
+                    <div className="skeleton-title"></div>
+                    <div className="skeleton-text"></div>
                   </div>
-
-                  <div className="vehicle-content">
-                    <h3 className="vehicle-name">
-                      {vehicle.name}
-                      <span className="model-name">{vehicle.brand || 'Unknown'}</span>
-                    </h3>
-                    
-                    <div className="vehicle-specs">
-                      <div className="spec-item">
-                        <span className="spec-label">Seats</span>
-                        <span className="spec-value">{vehicle.seats || '-'}</span>
-                      </div>
-                      <div className="spec-item">
-                        <span className="spec-label">Transmission</span>
-                        <span className="spec-value">{vehicle.transmission || '-'}</span>
-                      </div>
-                      <div className="spec-item">
-                        <span className="spec-label">Type</span>
-                        <span className="spec-value">{vehicle.type || '-'}</span>
-                      </div>
-                      <div className="spec-item">
-                        <span className="spec-label">Fuel</span>
-                        <span className="spec-value">{vehicle.fuelType || '-'}</span>
-                      </div>
-                    </div>
-
-                    {isLoggedIn ? (
-                      <button
-                        onClick={() => onNavigate('vehicle', { id: vehicle.id })}
-                        className="btn-book"
-                      >
-                        Book Now
-                        <span className="btn-icon">→</span>
-                      </button>
-                    ) : (
-                      <button className="btn-login-required" disabled>
-                        Login to Book
-                      </button>
-                    )}
-                  </div>
-
-                  {hoveredCard === (vehicle.id || index) && (
-                    <div className="card-shine"></div>
-                  )}
                 </div>
               ))}
-          </div>
+            </div>
+          ) : (
+            <div className="vehicles-grid" style={{ gridTemplateColumns: getVehicleGridColumns() }}>
+              {Array.isArray(vehicles) &&
+                vehicles.map((vehicle, index) => (
+                  <div 
+                    key={vehicle.id || index} 
+                    className="vehicle-card"
+                    onMouseEnter={() => setHoveredCard(vehicle.id || index)}
+                    onMouseLeave={() => setHoveredCard(null)}
+                  >
+                    <div className="vehicle-image-wrapper">
+                      <img
+                        src={vehicle.image || '/placeholder.png'}
+                        alt={vehicle.name || 'Vehicle'}
+                        className="vehicle-image"
+                      />
+                      <div className="image-overlay"></div>
+                      <div className="price-badge">
+                        <span className="price-currency">₹</span>
+                        <span className="price-amount">{vehicle.pricePerDay || 'N/A'}</span>
+                        <span className="price-period">/day</span>
+                      </div>
+                      <div className="featured-badge">Featured</div>
+                    </div>
+
+                    <div className="vehicle-content">
+                      <h3 className="vehicle-name">
+                        {vehicle.name}
+                        <span className="model-name">{vehicle.brand || 'Unknown'}</span>
+                      </h3>
+                      
+                      <div className="vehicle-specs">
+                        <div className="spec-item">
+                          <span className="spec-label">Seats</span>
+                          <span className="spec-value">{vehicle.seats || '-'}</span>
+                        </div>
+                        <div className="spec-item">
+                          <span className="spec-label">Transmission</span>
+                          <span className="spec-value">{vehicle.transmission || '-'}</span>
+                        </div>
+                        <div className="spec-item">
+                          <span className="spec-label">Type</span>
+                          <span className="spec-value">{vehicle.type || '-'}</span>
+                        </div>
+                        <div className="spec-item">
+                          <span className="spec-label">Fuel</span>
+                          <span className="spec-value">{vehicle.fuelType || '-'}</span>
+                        </div>
+                      </div>
+
+                      {isLoggedIn ? (
+                        <button
+                          onClick={() => onNavigate('vehicle', { id: vehicle.id })}
+                          className="btn-book"
+                        >
+                          Book Now
+                          <span className="btn-icon">→</span>
+                        </button>
+                      ) : (
+                        <button className="btn-login-required" disabled>
+                          Login to Book
+                        </button>
+                      )}
+                    </div>
+
+                    {hoveredCard === (vehicle.id || index) && (
+                      <div className="card-shine"></div>
+                    )}
+                  </div>
+                ))}
+            </div>
+          )}
         </div>
       </section>
 
@@ -236,7 +253,7 @@ function HomePage({ onNavigate }) {
               <h3>UrbanRide</h3>
               <p>Premium car rentals for every journey</p>
             </div>
-            <p className="footer-copyright">&copy; 2024 UrbanRide. All rights reserved.</p>
+            <p className="footer-copyright">&copy; 2026 UrbanRide. All rights reserved.</p>
           </div>
         </div>
       </footer>

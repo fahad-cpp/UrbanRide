@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useData } from '../contexts/DataContext'
 import { useAuth } from '../contexts/AuthContext'
 import '../styles/search-page.css'
 
 function SearchPage({ onNavigate, searchParams }) {
-  const { searchVehicles } = useData()
   const { isLoggedIn } = useAuth()
 
   const [selectedType, setSelectedType] = useState('')
@@ -13,6 +11,12 @@ function SearchPage({ onNavigate, searchParams }) {
   const [endDate, setEndDate] = useState(searchParams?.endDate || '')
   const [screenWidth, setScreenWidth] = useState(window.innerWidth)
   const [hoveredVehicle, setHoveredVehicle] = useState(null)
+  const [vehicles, setVehicles] = useState([])
+  const [loading, setLoading] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+
+  const ITEMS_PER_PAGE = 12
 
   useEffect(() => {
     const handleResize = () => setScreenWidth(window.innerWidth)
@@ -20,12 +24,46 @@ function SearchPage({ onNavigate, searchParams }) {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
-  const results = searchVehicles(location, startDate, endDate).filter(v =>
-    !selectedType || v.type === selectedType
-  )
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [location, selectedType])
 
-  const formColumns =
-    screenWidth < 768 ? '1fr' : 'repeat(4, 1fr)'
+  useEffect(() => {
+    fetchVehicles(currentPage)
+  }, [currentPage, location, selectedType])
+
+  const fetchVehicles = async (page) => {
+    setLoading(true)
+    try {
+      const params = new URLSearchParams({
+        page,
+        limit: ITEMS_PER_PAGE,
+        location: location || '',
+      })
+
+      const response = await fetch(
+        `http://localhost:5000/api/vehicles/paginated?${params}`
+      )
+      const data = await response.json()
+
+      if (data.vehicles) {
+        // Filter by selected type if any
+        const filtered = selectedType 
+          ? data.vehicles.filter(v => v.type === selectedType)
+          : data.vehicles
+        
+        setVehicles(filtered)
+        setTotalPages(data.pagination.pages)
+      } else {
+        setVehicles([])
+      }
+    } catch (err) {
+      console.error('Error fetching vehicles:', err)
+      setVehicles([])
+    } finally {
+      setLoading(false)
+    }
+  }
 
   const gridColumns =
     screenWidth < 768
@@ -45,6 +83,20 @@ function SearchPage({ onNavigate, searchParams }) {
     return Math.ceil((end - start) / (1000 * 60 * 60 * 24))
   }
 
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1)
+      window.scrollTo(0, 0)
+    }
+  }
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1)
+      window.scrollTo(0, 0)
+    }
+  }
+
   const totalDays = calculateDays()
 
   return (
@@ -54,7 +106,7 @@ function SearchPage({ onNavigate, searchParams }) {
           <div>
             <h1 className="search-title">Find Your Ride</h1>
             <p className="search-subtitle">
-              {results.length} {results.length === 1 ? 'vehicle' : 'vehicles'} available for your journey
+              {vehicles.length} {vehicles.length === 1 ? 'vehicle' : 'vehicles'} available for your journey
             </p>
           </div>
         </div>
@@ -116,7 +168,7 @@ function SearchPage({ onNavigate, searchParams }) {
               className="filter-select"
             >
               <option value="">All Types</option>
-              {['Economy', 'Compact', 'Sedan', 'SUV', 'Luxury','Electric'].map(t => (
+              {['Economy', 'Compact', 'Sedan', 'SUV', 'Luxury', 'Electric'].map(t => (
                 <option key={t} value={t}>
                   {t.charAt(0).toUpperCase() + t.slice(1)}
                 </option>
@@ -132,7 +184,11 @@ function SearchPage({ onNavigate, searchParams }) {
           )}
         </div>
 
-        {results.length === 0 ? (
+        {loading ? (
+          <div className="loading-state">
+            <p>Loading vehicles...</p>
+          </div>
+        ) : vehicles.length === 0 ? (
           <div className="empty-state">
             <div className="empty-icon">-</div>
             <h2>No vehicles found</h2>
@@ -151,12 +207,12 @@ function SearchPage({ onNavigate, searchParams }) {
                 Available Vehicles
               </h2>
               <p className="results-count">
-                Showing {results.length} result{results.length !== 1 ? 's' : ''}
+                Showing {vehicles.length} result{vehicles.length !== 1 ? 's' : ''} {totalPages > 1 && `(Page ${currentPage} of ${totalPages})`}
               </p>
             </div>
 
             <div className="vehicles-grid" style={{ gridTemplateColumns: gridColumns }}>
-              {results.map((vehicle, index) => (
+              {vehicles.map((vehicle, index) => (
                 <div
                   key={vehicle.id}
                   className="vehicle-card search-vehicle-card"
@@ -166,7 +222,7 @@ function SearchPage({ onNavigate, searchParams }) {
                 >
                   <div className="vehicle-image-wrapper">
                     <img
-                      src={vehicle.image}
+                      src={vehicle.image || '/placeholder.png'}
                       alt={vehicle.name}
                       className="vehicle-image"
                     />
@@ -236,6 +292,30 @@ function SearchPage({ onNavigate, searchParams }) {
                 </div>
               ))}
             </div>
+
+            {totalPages > 1 && (
+              <div className="pagination">
+                <button
+                  onClick={handlePrevPage}
+                  disabled={currentPage === 1}
+                  className="btn-pagination"
+                >
+                  ← Previous
+                </button>
+
+                <div className="pagination-info">
+                  Page {currentPage} of {totalPages}
+                </div>
+
+                <button
+                  onClick={handleNextPage}
+                  disabled={currentPage === totalPages}
+                  className="btn-pagination"
+                >
+                  Next →
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -72,9 +72,6 @@ router.post("/", authMiddleware, async (req, res) => {
         ...doc.data(),
       }));
 
-      console.log("All bookings");
-      console.log(bookings)
-
       res.json(bookings);
     }catch(err){
       console.log(err.message);
