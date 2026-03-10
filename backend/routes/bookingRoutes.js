@@ -1,6 +1,6 @@
 const express = require("express");
 
-module.exports = (authMiddleware) => {
+module.exports = (authMiddleware, adminMiddleware) => {
   const router = express.Router();
 
 router.post("/", authMiddleware, async (req, res) => {
@@ -61,7 +61,7 @@ router.post("/", authMiddleware, async (req, res) => {
     }
   });
 
-  router.get("/admin", authMiddleware , async (req, res) => {
+  router.get("/admin", authMiddleware, adminMiddleware, async (req, res) => {
     try{
       const snapshot = await req.db
       .collection("bookings")

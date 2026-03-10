@@ -16,6 +16,22 @@ admin.initializeApp({
 const db = admin.firestore();
 const auth = admin.auth();
 
+const ADMIN_EMAIL = "admin@gmail.com";
+
+function adminMiddleware(req, res, next) {
+  if (!req.user) {
+    return res.status(401).json({ message: "Unauthorized: no user found" });
+  }
+  const isAdmin =
+    req.user.email === ADMIN_EMAIL ||
+    req.user.admin === true ||
+    req.user.role === "admin";
+  if (!isAdmin) {
+    return res.status(403).json({ message: "Forbidden: admin access required" });
+  }
+  next();
+}
+
 async function authMiddleware(req, res, next) {
   const token = req.headers.authorization?.split(" ")[1];
 
@@ -47,8 +63,8 @@ app.get("/api/protected", authMiddleware, (req, res) => {
   res.json({ message: "This is a protected route", user: req.user });
 });
 
-app.use("/api/vehicles", require("./routes/vehicleRoutes"));
-app.use("/api/bookings", require("./routes/bookingRoutes")(authMiddleware));
+app.use("/api/vehicles", require("./routes/vehicleRoutes")(authMiddleware, adminMiddleware));
+app.use("/api/bookings", require("./routes/bookingRoutes")(authMiddleware, adminMiddleware));
 app.use("/api/auth", require("./routes/authRoutes")); 
 
 const PORT = process.env.PORT || 5000;

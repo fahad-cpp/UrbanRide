@@ -46,11 +46,35 @@ function AppContent() {
         if (!isLoggedIn) return <HomePage onNavigate={navigate} />
         return <ProfilePage onNavigate={navigate} />
 
-      case 'admin':
-        if (!isLoggedIn || user?.role !== 'admin') {
-          return <HomePage onNavigate={navigate} />
+      case 'admin': {
+        if (!isLoggedIn) return <HomePage onNavigate={navigate} />
+        if (user?.role !== 'admin') {
+          return (
+            <div style={{
+              display: 'flex', flexDirection: 'column', alignItems: 'center',
+              justifyContent: 'center', minHeight: '60vh', gap: '1rem',
+              color: 'var(--text-light)'
+            }}>
+              <div style={{ fontSize: '3rem' }}>🚫</div>
+              <h2 style={{ margin: 0 }}>Access Denied</h2>
+              <p style={{ color: 'var(--text-muted)', margin: 0 }}>
+                You don't have permission to view the Admin Panel.
+              </p>
+              <button
+                onClick={() => navigate('home')}
+                style={{
+                  marginTop: '0.5rem', padding: '0.6rem 1.5rem',
+                  background: 'var(--primary)', color: '#fff',
+                  border: 'none', borderRadius: '8px', cursor: 'pointer'
+                }}
+              >
+                Go Home
+              </button>
+            </div>
+          )
         }
         return <AdminPage onNavigate={navigate} />
+      }
 
       default:
         return <HomePage onNavigate={navigate} />

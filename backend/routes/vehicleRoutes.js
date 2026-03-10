@@ -1,7 +1,7 @@
 const express = require("express");
 const admin = require("firebase-admin");
-const authMiddleware = require("../middleware/authMiddleware");
 
+module.exports = (authMiddleware, adminMiddleware) => {
 const router = express.Router();
 const db = admin.firestore();
 
@@ -84,8 +84,8 @@ router.get("/paginated", async (req, res) => {
   }
 });
 
-// Get all vehicles (use sparingly - for admin only)
-router.get("/all", authMiddleware, async (req, res) => {
+// Get all vehicles — admin only
+router.get("/all", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const snapshot = await db.collection("vehicles").get();
 
@@ -115,10 +115,9 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-// Create vehicle
-router.post("/", authMiddleware, async (req, res) => {
+// Create vehicle — admin only
+router.post("/", authMiddleware, adminMiddleware, async (req, res) => {
   try {
-
     const docRef = await db.collection("vehicles").add({
       ...req.body,
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -130,10 +129,9 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
-// Update vehicle
-router.put("/:id", authMiddleware, async (req, res) => {
+// Update vehicle — admin only
+router.put("/:id", authMiddleware, adminMiddleware, async (req, res) => {
   try {
-
     await db.collection("vehicles").doc(req.params.id).update(req.body);
 
     res.json({ message: "Vehicle updated successfully" });
@@ -142,8 +140,8 @@ router.put("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// Delete vehicle
-router.delete("/:id", authMiddleware, async (req, res) => {
+// Delete vehicle — admin only
+router.delete("/:id", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     await db.collection("vehicles").doc(req.params.id).delete();
 
@@ -153,4 +151,5 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-module.exports = router;
+return router;
+};

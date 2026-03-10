@@ -225,6 +225,8 @@ function SearchPage({ onNavigate, searchParams }) {
                       src={vehicle.image || '/placeholder.png'}
                       alt={vehicle.name}
                       className="vehicle-image"
+                      width="1920"
+                      height="1080"
                     />
                     <div className="image-overlay"></div>
                     <div className="price-badge">
