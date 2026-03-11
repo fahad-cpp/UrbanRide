@@ -35,22 +35,25 @@ function Navigation({ onNavigate }) {
 
           {!isMobile && (
             <div className="nav-menu-desktop">
-              <button onClick={() => onNavigate('home')} className="nav-link">
-                Home
-              </button>
-
-              {isLoggedIn && (
+              {isLoggedIn && user?.role === 'admin' ? (
+                <button onClick={() => onNavigate('admin')} className="nav-link admin-link">
+                  Admin Panel
+                </button>
+              ) : (
                 <>
-                  <button onClick={() => onNavigate('search')} className="nav-link">
-                    Search
+                  <button onClick={() => onNavigate('home')} className="nav-link">
+                    Home
                   </button>
-                  <button onClick={() => onNavigate('bookings')} className="nav-link">
-                    Bookings
-                  </button>
-                  {user?.role === 'admin' && (
-                    <button onClick={() => onNavigate('admin')} className="nav-link admin-link">
-                      Admin Panel
-                    </button>
+
+                  {isLoggedIn && (
+                    <>
+                      <button onClick={() => onNavigate('search')} className="nav-link">
+                        Search
+                      </button>
+                      <button onClick={() => onNavigate('bookings')} className="nav-link">
+                        Bookings
+                      </button>
+                    </>
                   )}
                 </>
               )}
@@ -61,13 +64,15 @@ function Navigation({ onNavigate }) {
             <div className="nav-auth-section">
               {isLoggedIn ? (
                 <>
-                  <button
-                    onClick={() => onNavigate('profile')}
-                    className="nav-profile"
-                  >
-                    <span className="profile-icon">U</span>
-                    <span className="profile-name">{user?.name}</span>
-                  </button>
+                  {user?.role !== 'admin' && (
+                    <button
+                      onClick={() => onNavigate('profile')}
+                      className="nav-profile"
+                    >
+                      <span className="profile-icon">U</span>
+                      <span className="profile-name">{user?.name}</span>
+                    </button>
+                  )}
                   <button onClick={logout} className="nav-logout">
                     <LogOut size={16} />
                     <span>Logout</span>
@@ -98,58 +103,17 @@ function Navigation({ onNavigate }) {
 
         {mobileMenuOpen && isMobile && (
           <div className="mobile-menu">
-            <button
-              onClick={() => {
-                onNavigate('home')
-                setMobileMenuOpen(false)
-              }}
-              className="mobile-menu-link"
-            >
-              Home
-            </button>
-
-            {isLoggedIn && (
+            {isLoggedIn && user?.role === 'admin' ? (
               <>
                 <button
                   onClick={() => {
-                    onNavigate('search')
+                    onNavigate('admin')
                     setMobileMenuOpen(false)
                   }}
-                  className="mobile-menu-link"
+                  className="mobile-menu-link admin-link"
                 >
-                  Search
+                  Admin Panel
                 </button>
-                <button
-                  onClick={() => {
-                    onNavigate('bookings')
-                    setMobileMenuOpen(false)
-                  }}
-                  className="mobile-menu-link"
-                >
-                  Bookings
-                </button>
-                <button
-                  onClick={() => {
-                    onNavigate('profile')
-                    setMobileMenuOpen(false)
-                  }}
-                  className="mobile-menu-link"
-                >
-                  Profile
-                </button>
-
-                {user?.role === 'admin' && (
-                  <button
-                    onClick={() => {
-                      onNavigate('admin')
-                      setMobileMenuOpen(false)
-                    }}
-                    className="mobile-menu-link admin-link"
-                  >
-                    Admin Panel
-                  </button>
-                )}
-
                 <button
                   onClick={logout}
                   className="mobile-menu-link logout-link"
@@ -158,29 +122,80 @@ function Navigation({ onNavigate }) {
                   <span>Logout</span>
                 </button>
               </>
-            )}
+            ) : (
+              <>
+                <button
+                  onClick={() => {
+                    onNavigate('home')
+                    setMobileMenuOpen(false)
+                  }}
+                  className="mobile-menu-link"
+                >
+                  Home
+                </button>
 
-            {!isLoggedIn && (
-              <div className="mobile-auth-buttons">
-                <button
-                  onClick={() => {
-                    setLoginOpen(true)
-                    setMobileMenuOpen(false)
-                  }}
-                  className="mobile-btn-login"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => {
-                    setSignupOpen(true)
-                    setMobileMenuOpen(false)
-                  }}
-                  className="mobile-btn-signup"
-                >
-                  Sign Up
-                </button>
-              </div>
+                {isLoggedIn && (
+                  <>
+                    <button
+                      onClick={() => {
+                        onNavigate('search')
+                        setMobileMenuOpen(false)
+                      }}
+                      className="mobile-menu-link"
+                    >
+                      Search
+                    </button>
+                    <button
+                      onClick={() => {
+                        onNavigate('bookings')
+                        setMobileMenuOpen(false)
+                      }}
+                      className="mobile-menu-link"
+                    >
+                      Bookings
+                    </button>
+                    <button
+                      onClick={() => {
+                        onNavigate('profile')
+                        setMobileMenuOpen(false)
+                      }}
+                      className="mobile-menu-link"
+                    >
+                      Profile
+                    </button>
+                    <button
+                      onClick={logout}
+                      className="mobile-menu-link logout-link"
+                    >
+                      <LogOut size={16} />
+                      <span>Logout</span>
+                    </button>
+                  </>
+                )}
+
+                {!isLoggedIn && (
+                  <div className="mobile-auth-buttons">
+                    <button
+                      onClick={() => {
+                        setLoginOpen(true)
+                        setMobileMenuOpen(false)
+                      }}
+                      className="mobile-btn-login"
+                    >
+                      Login
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSignupOpen(true)
+                        setMobileMenuOpen(false)
+                      }}
+                      className="mobile-btn-signup"
+                    >
+                      Sign Up
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </div>
         )}
