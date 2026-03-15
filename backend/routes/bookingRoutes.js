@@ -76,7 +76,7 @@ module.exports = (authMiddleware, adminMiddleware) => {
   });
 
   // Delete a booking — admin only
-  router.delete("/:id", authMiddleware, adminMiddleware, async (req, res) => {
+  router.delete("/:id", authMiddleware , async (req, res) => {
     try {
       await req.db.collection("bookings").doc(req.params.id).delete();
       res.json({ message: "Booking deleted successfully" });
