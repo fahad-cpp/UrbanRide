@@ -160,7 +160,11 @@ export const AuthProvider = ({ children }) => {
         throw new Error(err.message || "Failed to delete account");
       }
 
-      // Delete the Firebase Auth user on the client side too
+      // Sign out first to explicitly terminate the Firebase session,
+      // then delete the account so the user is never left in a logged-in
+      // state with an invalidated token.
+      await signOut(auth);
+
       if (auth.currentUser) {
         await deleteUser(auth.currentUser);
       }

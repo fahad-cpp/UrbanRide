@@ -21,7 +21,7 @@ function AdminPage() {
   const [errorMessage, setErrorMessage]     = useState("");
 
   const [formData, setFormData] = useState({
-    name: "", brand: "", type: "sedan", seats: 5,
+    name: "", brand: "", type: "Electric", seats: 5,
     transmission: "automatic", fuelType: "petrol", pricePerDay: 50, image: ""
   });
 
@@ -78,7 +78,7 @@ function AdminPage() {
       if (!res.ok) { flash("error", "Failed to add vehicle."); return; }
       flash("success", "Vehicle added successfully!");
       setShowAddVehicle(false);
-      setFormData({ name: "", brand: "", type: "sedan", seats: 5, transmission: "automatic", fuelType: "petrol", pricePerDay: 50, image: "" });
+      setFormData({ name: "", brand: "", type: "Electric", seats: 5, transmission: "automatic", fuelType: "petrol", pricePerDay: 50, image: "" });
       fetchVehicles(vehiclePage);
     } catch (err) {
       console.error(err);
@@ -266,11 +266,13 @@ function AdminPage() {
                   <div className="form-group">
                     <label htmlFor="type">Vehicle Type *</label>
                     <select id="type" value={formData.type} onChange={e => setFormData({ ...formData, type: e.target.value })} required>
-                      <option value="sedan">Sedan</option>
-                      <option value="suv">SUV</option>
-                      <option value="hatchback">Hatchback</option>
-                      <option value="truck">Truck</option>
-                      <option value="van">Van</option>
+                      <option value="Electric">Electric</option>
+                      <option value="Hatchback">Hatchback</option>
+                      <option value="Luxury">Luxury</option>
+                      <option value="MPV">MPV</option>
+                      <option value="SUV">SUV</option>
+                      <option value="Sedan">Sedan</option>
+                      <option value="Sports">Sports</option>
                     </select>
                   </div>
                   <div className="form-group">

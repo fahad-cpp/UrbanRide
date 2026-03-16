@@ -81,6 +81,13 @@ function HomePage({ onNavigate }) {
               >
                 <option value="">Select Location</option>
                 <option value="Ahmedabad">Ahmedabad</option>
+                <option value="Vadodara">Vadodara</option>
+                <option value="Gandhinagar">Gandhinagar</option>
+                <option value="Surat">Surat</option>
+                <option value="Jamnagar">Jamnagar</option>
+                <option value="Anand">Anand</option>
+                <option value="Rajkot">Rajkot</option>
+                <option value="Bhavnagar">Bhavnagar</option>
               </select>
             </div>
             <div className="form-group">

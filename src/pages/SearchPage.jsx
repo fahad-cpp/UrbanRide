@@ -125,6 +125,13 @@ function SearchPage({ onNavigate, searchParams }) {
             >
               <option value="">Select Location</option>
               <option value="Ahmedabad">Ahmedabad</option>
+              <option value="Vadodara">Vadodara</option>
+              <option value="Gandhinagar">Gandhinagar</option>
+              <option value="Surat">Surat</option>
+              <option value="Jamnagar">Jamnagar</option>
+              <option value="Anand">Anand</option>
+              <option value="Rajkot">Rajkot</option>
+              <option value="Bhavnagar">Bhavnagar</option>
             </select>
           </div>
 
@@ -168,7 +175,7 @@ function SearchPage({ onNavigate, searchParams }) {
               className="filter-select"
             >
               <option value="">All Types</option>
-              {['Economy', 'Compact', 'Sedan', 'SUV', 'Luxury', 'Electric'].map(t => (
+              {['Electric', 'Hatchback', 'Luxury', 'MPV', 'SUV', 'Sedan', 'Sports'].map(t => (
                 <option key={t} value={t}>
                   {t.charAt(0).toUpperCase() + t.slice(1)}
                 </option>
