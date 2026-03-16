@@ -670,3 +670,232 @@
   background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(239, 68, 68, 0.04));
   border-color: rgba(239, 68, 68, 0.25);
 }
+
+/* ========== PROFILE ERROR & HINTS ========== */
+
+.profile-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  animation: slideInDown 0.3s ease-out;
+}
+
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.profile-error-icon {
+  font-size: 13px;
+  font-weight: 700;
+  color: #ef4444;
+  min-width: 20px;
+  text-align: center;
+}
+
+.profile-error span:last-child {
+  font-size: 13px;
+  color: #ef4444;
+  font-weight: 500;
+}
+
+.field-hint {
+  font-size: 11px;
+  color: var(--text-subtle);
+  margin-top: 2px;
+}
+
+.form-input-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ========== FIELD ERRORS & HINTS ========== */
+
+.field-error {
+  font-size: 12px;
+  color: #ef4444;
+  font-weight: 500;
+  margin-top: 2px;
+  display: block;
+}
+
+.form-input-invalid {
+  border-color: rgba(239, 68, 68, 0.6) !important;
+  box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.1);
+}
+
+/* ========== DANGER ZONE ========== */
+
+.danger-zone-card {
+  margin-top: 24px;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.danger-zone-header {
+  padding: 16px 24px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+  border-bottom: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.danger-zone-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ef4444;
+  margin: 0;
+}
+
+.danger-zone-body {
+  padding: 20px 24px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-secondary));
+}
+
+.danger-zone-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.btn-delete-account {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #ef4444;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-delete-account:hover {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
+  border-color: rgba(239, 68, 68, 0.7);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.2);
+}
+
+.delete-confirm-panel {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: slideInDown 0.3s ease-out;
+}
+
+.delete-confirm-instructions {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.delete-confirm-instructions strong {
+  color: #ef4444;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.delete-confirm-input {
+  background-color: var(--bg-secondary);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: var(--text-light);
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  width: 100%;
+  font-family: monospace;
+  letter-spacing: 1px;
+}
+
+.delete-confirm-input:focus {
+  outline: none;
+  border-color: #ef4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+.delete-confirm-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-confirm-delete {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-confirm-delete:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35);
+}
+
+.btn-confirm-delete:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-cancel-delete {
+  background: linear-gradient(135deg, var(--bg-secondary), rgba(49, 168, 255, 0.05));
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-cancel-delete:hover:not(:disabled) {
+  border-color: var(--primary);
+  color: var(--text-light);
+}
+
+/* ========== LIGHT THEME: DANGER ZONE ========== */
+
+[data-theme="light"] .danger-zone-card {
+  border-color: rgba(239, 68, 68, 0.25);
+}
+
+[data-theme="light"] .danger-zone-body {
+  background: linear-gradient(135deg, #ffffff 0%, #fff5f5 100%);
+}
+
+[data-theme="light"] .danger-zone-header {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.07), rgba(239, 68, 68, 0.03));
+}
+
+[data-theme="light"] .delete-confirm-input {
+  background-color: rgba(232, 237, 248, 0.8);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: var(--text-light);
+}
+
+[data-theme="light"] .btn-cancel-delete {
+  background: linear-gradient(135deg, #e8edf8, rgba(30, 125, 184, 0.05));
+}

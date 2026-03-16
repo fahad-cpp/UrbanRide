@@ -6,7 +6,8 @@ import {
   createUserWithEmailAndPassword,
   signOut,
   updateCurrentUser,
-  updateProfile
+  updateProfile,
+  deleteUser
 } from "firebase/auth";
 import firebaseConfig from "./firebaseConfig"; 
 
@@ -106,8 +107,75 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     localStorage.clear();
   };
+
+  const updateUser = async ({ name, phone }) => {
+    try {
+      const currentToken = token || localStorage.getItem("token");
+
+      const response = await fetch(`${API_BASE}/auth/update`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentToken}`
+        },
+        body: JSON.stringify({ name, phone })
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.message || "Failed to update profile");
+      }
+
+      // Update Firebase Auth display name locally
+      if (auth.currentUser && name) {
+        await updateProfile(auth.currentUser, { displayName: name });
+      }
+
+      // Update local state and storage
+      const updatedUser = { ...user, name, phone };
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+
+      return updatedUser;
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+
+  const deleteAccount = async () => {
+    try {
+      const currentToken = token || localStorage.getItem("token");
+
+      // Delete from backend (Firestore + Firebase Auth via Admin SDK)
+      const response = await fetch(`${API_BASE}/auth/delete`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${currentToken}`
+        }
+      });
+
+      if (!response.ok) {
+        const err = await response.json();
+        throw new Error(err.message || "Failed to delete account");
+      }
+
+      // Delete the Firebase Auth user on the client side too
+      if (auth.currentUser) {
+        await deleteUser(auth.currentUser);
+      }
+
+      // Clear local state
+      setUser(null);
+      setToken(null);
+      localStorage.clear();
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, token,isLoggedIn, register, login, logout }}>
+    <AuthContext.Provider value={{ user, token, isLoggedIn, register, login, logout, updateUser, deleteAccount }}>
       {children}
     </AuthContext.Provider>
   );
