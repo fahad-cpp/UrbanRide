@@ -840,3 +840,31 @@
     min-width: auto;
   }
 }
+
+/* ========== LIGHT THEME OVERRIDES ========== */
+
+[data-theme="light"] .search-page {
+  background: linear-gradient(180deg, #f0f4ff 0%, #e8edf8 100%);
+}
+
+[data-theme="light"] .search-header {
+  background: linear-gradient(135deg, #dce8f8 0%, #eaf1fb 100%);
+}
+
+[data-theme="light"] .search-filter-panel {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .filter-section {
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .form-input-search {
+  background-color: rgba(232, 237, 248, 0.8);
+  color: var(--text-light);
+}
+
+[data-theme="light"] .vehicle-image-wrapper {
+  background: linear-gradient(135deg, #e8edf8 0%, #d8e4f5 100%);
+}

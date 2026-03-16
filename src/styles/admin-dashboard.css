@@ -929,3 +929,157 @@
     font-size: 48px;
   }
 }
+
+/* ========== LIGHT THEME OVERRIDES ========== */
+
+[data-theme="light"] .admin-page {
+  background: linear-gradient(180deg, #f0f4ff 0%, #e8edf8 100%);
+}
+
+[data-theme="light"] .admin-header {
+  background: linear-gradient(135deg, #dce8f8 0%, #eaf1fb 100%);
+  border-bottom-color: var(--border-light);
+}
+
+[data-theme="light"] .admin-nav {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .nav-button {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .nav-button:hover {
+  background: rgba(30, 125, 184, 0.08);
+  color: var(--primary);
+}
+
+[data-theme="light"] .nav-button.active {
+  background: rgba(30, 125, 184, 0.12);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+
+[data-theme="light"] .tab-content {
+  background: transparent;
+}
+
+[data-theme="light"] .stat-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .stat-card:hover {
+  border-color: var(--primary);
+}
+
+[data-theme="light"] .stat-label {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .stat-value {
+  color: var(--text-light);
+}
+
+[data-theme="light"] .add-vehicle-form {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .form-group input,
+[data-theme="light"] .form-group select {
+  background-color: rgba(232, 237, 248, 0.8);
+  border-color: rgba(30, 125, 184, 0.25);
+  color: var(--text-light);
+}
+
+[data-theme="light"] .form-group input:focus,
+[data-theme="light"] .form-group select:focus {
+  background-color: #ffffff;
+  border-color: var(--primary);
+}
+
+[data-theme="light"] .form-group input::placeholder {
+  color: var(--text-subtle);
+}
+
+[data-theme="light"] .form-group label {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .form-title {
+  color: var(--text-light);
+}
+
+[data-theme="light"] .vehicles-list,
+[data-theme="light"] .vehicles-table {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .table-header {
+  background: linear-gradient(135deg, #e8edf8 0%, #dce8f8 100%);
+  border-color: var(--border-light);
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .table-row {
+  border-color: var(--border-light);
+  color: var(--text-light);
+}
+
+[data-theme="light"] .table-row:hover {
+  background: rgba(30, 125, 184, 0.05);
+}
+
+[data-theme="light"] .vehicle-brand {
+  color: var(--text-light);
+}
+
+[data-theme="light"] .vehicle-model {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .col-type,
+[data-theme="light"] .col-specs,
+[data-theme="light"] .col-price,
+[data-theme="light"] .col-name,
+[data-theme="light"] .col-customer,
+[data-theme="light"] .col-vehicle,
+[data-theme="light"] .col-dates,
+[data-theme="light"] .col-status,
+[data-theme="light"] .col-amount {
+  color: var(--text-light);
+}
+
+[data-theme="light"] .price-text {
+  color: var(--primary);
+}
+
+[data-theme="light"] .bookings-table {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .booking-customer,
+[data-theme="light"] .booking-vehicle,
+[data-theme="light"] .booking-date,
+[data-theme="light"] .booking-amount {
+  color: var(--text-light);
+}
+
+[data-theme="light"] .empty-state {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .vehicles-header h2 {
+  color: var(--text-light);
+}
+
+[data-theme="light"] .loading-state {
+  background: transparent;
+  color: var(--text-muted);
+}

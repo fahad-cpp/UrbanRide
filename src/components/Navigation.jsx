@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
-import { Menu, X, LogOut } from 'lucide-react'
+import { useTheme } from '../contexts/ThemeContext'
+import { Menu, X, LogOut, Sun, Moon } from 'lucide-react'
 import LoginModal from './modals/LoginModal'
 import SignupModal from './modals/SignupModal'
 import '../styles/navigation.css'
 
 function Navigation({ onNavigate }) {
   const { isLoggedIn, user, logout } = useAuth()
+  const { theme, toggleTheme } = useTheme()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
   const [signupOpen, setSignupOpen] = useState(false)
@@ -62,6 +64,13 @@ function Navigation({ onNavigate }) {
 
           {!isMobile && (
             <div className="nav-auth-section">
+              <button
+                onClick={toggleTheme}
+                className="nav-theme-toggle"
+                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              >
+                {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              </button>
               {isLoggedIn ? (
                 <>
                   {user?.role !== 'admin' && (
@@ -92,12 +101,21 @@ function Navigation({ onNavigate }) {
           )}
 
           {isMobile && (
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="nav-toggle"
-            >
-              {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </button>
+            <div className="nav-mobile-right">
+              <button
+                onClick={toggleTheme}
+                className="nav-theme-toggle"
+                title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              >
+                {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+              </button>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="nav-toggle"
+              >
+                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
           )}
         </div>
 

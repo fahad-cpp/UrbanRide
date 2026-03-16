@@ -566,3 +566,107 @@
     font-size: 12px;
   }
 }
+
+/* ========== LIGHT THEME OVERRIDES ========== */
+
+[data-theme="light"] .profile-page {
+  background: linear-gradient(180deg, #f0f4ff 0%, #e8edf8 100%);
+}
+
+[data-theme="light"] .profile-header {
+  background: linear-gradient(135deg, #dce8f8 0%, #eaf1fb 100%);
+  border-bottom-color: var(--border-light);
+}
+
+[data-theme="light"] .profile-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .profile-card:hover {
+  border-color: var(--primary);
+}
+
+[data-theme="light"] .profile-name {
+  color: var(--text-light);
+}
+
+[data-theme="light"] .profile-email {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .member-since {
+  color: var(--text-subtle);
+}
+
+[data-theme="light"] .avatar {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #ffffff;
+}
+
+[data-theme="light"] .profile-info-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .profile-info-title {
+  color: var(--text-light);
+}
+
+[data-theme="light"] .info-field {
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .field-label {
+  color: var(--text-subtle);
+}
+
+[data-theme="light"] .field-value {
+  color: var(--text-light);
+}
+
+[data-theme="light"] .form-label {
+  color: var(--text-muted);
+}
+
+[data-theme="light"] .form-input {
+  background-color: rgba(232, 237, 248, 0.8);
+  border-color: rgba(30, 125, 184, 0.25);
+  color: var(--text-light);
+}
+
+[data-theme="light"] .form-input:focus {
+  background-color: #ffffff;
+  border-color: var(--primary);
+}
+
+[data-theme="light"] .form-input::placeholder {
+  color: var(--text-subtle);
+}
+
+[data-theme="light"] .btn-edit-profile {
+  background: linear-gradient(135deg, #e8edf8, rgba(30, 125, 184, 0.08));
+  border-color: var(--border-light);
+  color: var(--text-light);
+}
+
+[data-theme="light"] .btn-edit-profile:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+[data-theme="light"] .btn-cancel-edit {
+  background: linear-gradient(135deg, #e8edf8, rgba(30, 125, 184, 0.05));
+  border-color: var(--border-light);
+  color: var(--text-light);
+}
+
+[data-theme="light"] .btn-cancel-edit:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+[data-theme="light"] .btn-logout {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.08), rgba(239, 68, 68, 0.04));
+  border-color: rgba(239, 68, 68, 0.25);
+}

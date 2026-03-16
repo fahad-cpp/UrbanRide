@@ -222,6 +222,42 @@
   box-shadow: 0 6px 16px rgba(49, 168, 255, 0.3);
 }
 
+/* ========== THEME TOGGLE ========== */
+
+.nav-theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, var(--bg-secondary), rgba(49, 168, 255, 0.05));
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.nav-theme-toggle:hover {
+  background: linear-gradient(135deg, var(--bg-secondary), rgba(49, 168, 255, 0.12));
+  border-color: var(--primary);
+  color: var(--primary-light);
+  transform: rotate(15deg) scale(1.05);
+}
+
+.nav-theme-toggle:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.nav-mobile-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 /* ========== MOBILE TOGGLE ========== */
 
 .nav-toggle {
@@ -356,6 +392,10 @@
   }
 
   .nav-toggle {
+    display: flex;
+  }
+
+  .nav-mobile-right {
     display: flex;
   }
 

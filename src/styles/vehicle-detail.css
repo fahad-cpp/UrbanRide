@@ -830,3 +830,43 @@
     font-size: 12px;
   }
 }
+
+/* ========== LIGHT THEME OVERRIDES ========== */
+
+[data-theme="light"] .vehicle-detail-page {
+  background: linear-gradient(180deg, #f0f4ff 0%, #e8edf8 100%);
+}
+
+[data-theme="light"] .vehicle-detail-loading,
+[data-theme="light"] .vehicle-detail-error,
+[data-theme="light"] .vehicle-detail-success {
+  background: linear-gradient(180deg, #f0f4ff 0%, #e8edf8 100%);
+}
+
+[data-theme="light"] .vehicle-detail-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .vehicle-image-container {
+  background: linear-gradient(135deg, #e8edf8 0%, #d8e4f5 100%);
+}
+
+[data-theme="light"] .booking-form-panel {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .booking-form-input {
+  background-color: rgba(232, 237, 248, 0.8);
+  color: var(--text-light);
+}
+
+[data-theme="light"] .vehicle-specs-panel {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .spec-row {
+  border-color: var(--border-light);
+}

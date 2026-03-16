@@ -41,6 +41,136 @@
   --gradient-glass: rgba(20, 24, 41, 0.7);
 }
 
+/* ========== LIGHT THEME OVERRIDES ========== */
+
+[data-theme="light"] {
+  /* Base Colors */
+  --bg-dark: #f0f4ff;
+  --bg-card: #ffffff;
+  --bg-secondary: #e8edf8;
+  --text-light: #1a1f3a;
+  --text-muted: #4a5568;
+  --text-subtle: #718096;
+
+  /* Primary Colors - kept consistent */
+  --primary: #1e7db8;
+  --primary-dark: #155d8a;
+  --primary-light: #31a8ff;
+  --primary-subtle: rgba(30, 125, 184, 0.1);
+
+  /* Accent Colors */
+  --accent-cyan: #0096c7;
+  --accent-purple: #7c3aed;
+  --accent-green: #059669;
+
+  /* Borders & Shadows */
+  --border: #d1d9e8;
+  --border-light: #c3cde0;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.16);
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  --gradient-hero: linear-gradient(135deg, #155d8a 0%, var(--primary) 50%, var(--accent-cyan) 100%);
+  --gradient-glass: rgba(255, 255, 255, 0.85);
+
+  color-scheme: light;
+}
+
+[data-theme="light"] html {
+  color-scheme: light;
+}
+
+[data-theme="light"] .hero-section {
+  background: linear-gradient(180deg, #dce8f8 0%, #eaf1fb 100%);
+}
+
+[data-theme="light"] .vehicles-section {
+  background: linear-gradient(180deg, #f0f4ff 0%, #e8edf8 100%);
+}
+
+[data-theme="light"] .trust-section {
+  background: linear-gradient(180deg, #eaf1fb 0%, #e0eaf8 100%);
+}
+
+[data-theme="light"] .footer {
+  background: linear-gradient(180deg, #dce8f8 0%, #cfddf2 100%);
+}
+
+[data-theme="light"] .navigation {
+  background: linear-gradient(180deg, #ffffff 0%, rgba(240, 244, 255, 0.97) 100%);
+  border-bottom-color: var(--border-light);
+}
+
+[data-theme="light"] .mobile-menu {
+  background: linear-gradient(180deg, rgba(255,255,255,0.97), rgba(240,244,255,0.97));
+}
+
+[data-theme="light"] .vehicle-card {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+}
+
+[data-theme="light"] .vehicle-image-wrapper {
+  background: linear-gradient(135deg, #e8edf8 0%, #d0ddf5 100%);
+}
+
+[data-theme="light"] .trust-item {
+  background: linear-gradient(135deg, #ffffff, #eef2fb);
+}
+
+[data-theme="light"] .search-form-premium {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(30, 125, 184, 0.25);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .form-input.premium {
+  background-color: rgba(232, 237, 248, 0.8);
+  border-color: rgba(30, 125, 184, 0.25);
+  color: var(--text-light);
+}
+
+[data-theme="light"] .form-input.premium:focus {
+  background-color: #ffffff;
+}
+
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  background-color: var(--bg-secondary);
+  color: var(--text-light);
+  border-color: var(--border-light);
+}
+
+[data-theme="light"] .btn-search {
+  color: #ffffff;
+}
+
+[data-theme="light"] .btn-book {
+  color: #ffffff;
+}
+
+[data-theme="light"] button.primary {
+  color: #ffffff;
+}
+
+[data-theme="light"] .logo-icon {
+  color: #ffffff;
+}
+
+[data-theme="light"] .price-badge {
+  color: #ffffff;
+}
+
+[data-theme="light"] .nav-btn-signup {
+  color: #ffffff;
+}
+
+[data-theme="light"] .mobile-btn-signup {
+  color: #ffffff;
+}
+
 html, body, #root {
   height: 100%;
 }

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { DataProvider } from './contexts/DataContext'
+import { ThemeProvider } from './contexts/ThemeContext'
 import Navigation from './components/Navigation'
 import HomePage from './pages/HomePage'
 import SearchPage from './pages/SearchPage'
@@ -96,11 +97,13 @@ function AppContent() {
 
 function App() {
   return (
-    <AuthProvider>
-      <DataProvider>
-        <AppContent />
-      </DataProvider>
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <DataProvider>
+          <AppContent />
+        </DataProvider>
+      </AuthProvider>
+    </ThemeProvider>
   )
 }
 
