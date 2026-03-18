@@ -1,9 +1,9 @@
-alacritty -e npm run dev &
+alacritty -e bash -i -c 'npm run dev' &
 
 cd backend
 
-alacritty -e npm start &
+alacritty -e bash -i -c 'npm start' &
 
 cd ..
 
-firefox "http://localhost:5173/"
+librewolf "http://localhost:5173/"
