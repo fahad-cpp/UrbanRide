@@ -15,8 +15,8 @@ function Navigation({ onNavigate }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
 
   useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 768)
-    window.addEventListener('resize', handleResize)
+    let t; const handleResize = () => { clearTimeout(t); t = setTimeout(() => setIsMobile(window.innerWidth < 768), 150) }
+    window.addEventListener('resize', handleResize, { passive: true })
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 

@@ -118,7 +118,7 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -174,7 +174,7 @@
   display: flex;
   align-items: flex-start;
   gap: 20px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   position: relative;
   overflow: hidden;
 }
@@ -317,7 +317,7 @@
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-size: 13px;
@@ -390,7 +390,7 @@
   padding: 10px 14px;
   border-radius: 8px;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .form-group input:focus,
@@ -413,7 +413,7 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -460,7 +460,7 @@
   padding: 16px 20px;
   border-bottom: 1px solid var(--border);
   align-items: center;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .table-row:hover {
@@ -553,7 +553,7 @@
   border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   font-weight: 600;
 }
 

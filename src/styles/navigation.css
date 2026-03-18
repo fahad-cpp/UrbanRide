@@ -6,7 +6,7 @@
   position: sticky;
   top: 0;
   z-index: 40;
-  backdrop-filter: blur(10px);
+  
   background: linear-gradient(180deg, var(--bg-card) 0%, rgba(26, 24, 41, 0.95) 100%);
 }
 
@@ -30,7 +30,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   padding: 8px 12px;
   border-radius: 8px;
 }
@@ -51,7 +51,7 @@
   font-weight: 700;
   font-size: 16px;
   box-shadow: 0 4px 12px rgba(49, 168, 255, 0.3);
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .nav-logo:hover .logo-icon {
@@ -86,7 +86,7 @@
   color: var(--text-light);
   cursor: pointer;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   padding: 8px 12px;
   border-radius: 6px;
   position: relative;
@@ -139,7 +139,7 @@
   border-radius: 8px;
   padding: 8px 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   font-size: 13px;
   font-weight: 500;
 }
@@ -177,7 +177,7 @@
   border-radius: 8px;
   padding: 8px 16px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   font-size: 13px;
   font-weight: 500;
 }
@@ -193,7 +193,7 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
@@ -235,7 +235,7 @@
   border: 1px solid var(--border-light);
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   flex-shrink: 0;
   padding: 0;
 }
@@ -267,7 +267,7 @@
   border-radius: 6px;
   cursor: pointer;
   color: var(--text-light);
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   display: none;
 }
 
@@ -307,7 +307,7 @@
   border: none;
   color: var(--text-light);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   font-size: 14px;
   font-weight: 500;
   border-bottom: 1px solid rgba(49, 168, 255, 0.1);
@@ -348,7 +348,7 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
   font-size: 13px;
   font-weight: 600;
   text-transform: uppercase;
