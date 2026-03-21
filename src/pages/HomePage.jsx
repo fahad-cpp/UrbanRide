@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 
-// PERF: moved outside component — never causes re-renders
 function getVehicleGridColumns(w) {
   if (w < 768) return '1fr'
   if (w < 1024) return 'repeat(2, 1fr)'
@@ -33,7 +32,6 @@ function HomePage({ onNavigate }) {
   }, [])
 
   useEffect(() => {
-    // PERF: debounced resize listener — raw resize fires ~60x/sec on drag
     let timer
     const handleResize = () => {
       clearTimeout(timer)
@@ -50,7 +48,6 @@ function HomePage({ onNavigate }) {
     }
   }, [location, startDate, endDate, onNavigate])
 
-  // PERF: memoised — only recomputes when windowWidth changes
   const searchFormColumns = useMemo(() => getSearchFormColumns(windowWidth), [windowWidth])
   const vehicleGridColumns = useMemo(() => getVehicleGridColumns(windowWidth), [windowWidth])
 
@@ -174,11 +171,9 @@ function HomePage({ onNavigate }) {
   )
 }
 
-// PERF: extracted + memoized vehicle card so it only re-renders when its own props change
 const VehicleCard = ({ vehicle, isLoggedIn, onNavigate, showFeaturedBadge, startDate, endDate, totalDays }) => (
   <div className="vehicle-card">
     <div className="vehicle-image-wrapper">
-      {/* PERF: loading="lazy" defers off-screen image fetches */}
       <img
         src={vehicle.image || '/placeholder.png'}
         alt={vehicle.name || 'Vehicle'}
