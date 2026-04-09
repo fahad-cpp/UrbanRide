@@ -162,7 +162,7 @@ function VehicleDetailPage({ vehicleId, onNavigate, searchParams }) {
             <div className="vehicle-info-card">
               <div className="vehicle-header-info">
                 <h1 className="vehicle-title">
-                  {vehicle.brand} {vehicle.name}
+                  {vehicle.name}
                   <span className="vehicle-model-detail">{vehicle.model}</span>
                 </h1>
               </div>
