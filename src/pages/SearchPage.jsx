@@ -9,7 +9,7 @@ function getGridColumns(w) {
   return 'repeat(3, 1fr)'
 }
 
-const ITEMS_PER_PAGE = 12
+const ITEMS_PER_PAGE = 25
 
 function SearchPage({ onNavigate, searchParams }) {
   const { isLoggedIn } = useAuth()
