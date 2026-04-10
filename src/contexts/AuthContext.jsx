@@ -126,12 +126,10 @@ export const AuthProvider = ({ children }) => {
         throw new Error(err.message || "Failed to update profile");
       }
 
-      // Update Firebase Auth display name locally
       if (auth.currentUser && name) {
         await updateProfile(auth.currentUser, { displayName: name });
       }
 
-      // Update local state and storage
       const updatedUser = { ...user, name, phone };
       setUser(updatedUser);
       localStorage.setItem("user", JSON.stringify(updatedUser));
@@ -146,7 +144,6 @@ export const AuthProvider = ({ children }) => {
     try {
       const currentToken = token || localStorage.getItem("token");
 
-      // Delete from backend (Firestore + Firebase Auth via Admin SDK)
       const response = await fetch(`${API_BASE}/auth/delete`, {
         method: "DELETE",
         headers: {
@@ -160,16 +157,12 @@ export const AuthProvider = ({ children }) => {
         throw new Error(err.message || "Failed to delete account");
       }
 
-      // Sign out first to explicitly terminate the Firebase session,
-      // then delete the account so the user is never left in a logged-in
-      // state with an invalidated token.
       await signOut(auth);
 
       if (auth.currentUser) {
         await deleteUser(auth.currentUser);
       }
 
-      // Clear local state
       setUser(null);
       setToken(null);
       localStorage.clear();

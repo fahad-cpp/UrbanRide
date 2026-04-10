@@ -22,7 +22,6 @@ function AppContent() {
   }
 
   const renderPage = () => {
-    // Admin users are restricted to the admin panel only
     if (isLoggedIn && user?.role === 'admin' && currentPage !== 'admin') {
       return <AdminPage onNavigate={navigate} />
     }
