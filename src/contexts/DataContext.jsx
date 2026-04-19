@@ -31,7 +31,6 @@ export const DataProvider = ({ children }) => {
     }
   }, []);
 
-  // PERF: memoised filter — avoids re-running on every render
   const searchVehicles = useCallback((filters = {}) => {
     return vehicles.filter((vehicle) => (
       (!filters.city || vehicle.city === filters.city) &&
@@ -73,7 +72,6 @@ export const DataProvider = ({ children }) => {
   useEffect(() => { fetchVehicles(); }, [fetchVehicles]);
   useEffect(() => { fetchMyBookings(); }, [fetchMyBookings]);
 
-  // PERF: stable context value — only changes when actual data changes
   const value = useMemo(() => ({
     vehicles, bookings, getVehicleById, fetchVehicles, searchVehicles, createBooking,
   }), [vehicles, bookings, getVehicleById, fetchVehicles, searchVehicles, createBooking]);

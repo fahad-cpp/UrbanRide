@@ -1,4 +1,5 @@
 const express = require("express");
+const { sendBookingConfirmationEmail } = require("../utils/emailService");
 
 module.exports = (authMiddleware, adminMiddleware) => {
   const router = express.Router();
@@ -28,6 +29,30 @@ module.exports = (authMiddleware, adminMiddleware) => {
         confirmationEmail: confirmationEmail || null,
         createdAt: req.admin.firestore.FieldValue.serverTimestamp(),
       });
+
+      // Send booking confirmation email
+      if (confirmationEmail) {
+        try {
+          // Fetch vehicle details for the email
+          const vehicleDoc = await req.db.collection("vehicles").doc(vehicleId).get();
+          const vehicleData = vehicleDoc.exists ? vehicleDoc.data() : {};
+
+          await sendBookingConfirmationEmail(confirmationEmail, {
+            userName: req.user.name || req.user.email?.split("@")[0] || "Customer",
+            bookingId: docRef.id,
+            vehicleName: vehicleData.name || vehicleId,
+            vehicleBrand: vehicleData.brand || "",
+            startDate,
+            endDate,
+            totalDays: totalDays || 0,
+            totalPrice: totalPrice || 0,
+            pickupLocation: pickupLocation || vehicleData.location || "N/A",
+          });
+        } catch (emailErr) {
+          console.error("Booking email send failed:", emailErr.message);
+          // Non-fatal — booking is already saved
+        }
+      }
 
       res.status(201).json({ id: docRef.id });
     } catch (err) {

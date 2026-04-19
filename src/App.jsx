@@ -9,9 +9,10 @@ import VehicleDetailPage from './pages/VehicleDetailPage'
 import BookingsPage from './pages/BookingsPage'
 import ProfilePage from './pages/ProfilePage'
 import AdminPage from './pages/AdminPage'
+import VerifyEmailPage from './pages/VerifyEmailPage'
 
 function AppContent() {
-  const { isLoggedIn, user } = useAuth()
+  const { isLoggedIn, user, pendingVerification } = useAuth()
   const [currentPage, setCurrentPage] = useState('home')
   const [searchParams, setSearchParams] = useState({})
 
@@ -19,6 +20,11 @@ function AppContent() {
     setCurrentPage(page)
     setSearchParams(params)
     window.scrollTo(0, 0)
+  }
+
+  // Show verify page while waiting for email confirmation
+  if (pendingVerification) {
+    return <VerifyEmailPage />
   }
 
   const renderPage = () => {
