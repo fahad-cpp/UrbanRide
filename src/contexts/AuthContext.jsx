@@ -53,7 +53,7 @@ export const AuthProvider = ({ children }) => {
   // Shared login finalisation (called after verification confirmed)
   const finaliseLogin = async (firebaseUser, phone) => {
     const idToken = await firebaseUser.getIdToken(true);
-    const role = firebaseUser.email === "admin@gmail.com" ? "admin" : "user";
+    const role = firebaseUser.email === "fahadbruh11@gmail.com" ? "admin" : "user";
     const userData = {
       uid: firebaseUser.uid,
       email: firebaseUser.email,
